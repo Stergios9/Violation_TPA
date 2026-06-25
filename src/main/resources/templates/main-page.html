@@ -29,19 +29,14 @@
             font-weight: 600;
             margin-top: 10px;
         }
-        .selected-value {
-            font-size: 0.9rem;
-            color: #0d6efd;
-            margin-top: 5px;
-            min-height: 20px;
-        }
         .form-group-custom {
             text-align: center;
             margin-bottom: 20px;
+            background-color: burlywood;
         }
 
         .form-group-custom .form-select {
-            width: 45%;
+            width: 25%;
             margin: 0 auto;
         }
 
@@ -49,6 +44,7 @@
             display: block;
             margin-bottom: 5px;
         }
+
         .section-divider {
             height: 5px;
             background-color: #1A494D;
@@ -56,11 +52,92 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(26, 73, 77, 0.4);
         }
-        /*.quantity-input {*/
-        /*    width: 50%;*/
-        /*    margin: 0 auto;*/
-        /*    text-align: center;*/
-        /*}*/
+        .incoming-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        /* label σταθερό */
+        .incoming-row label {
+            width: 50%;
+            font-weight: 600;
+        }
+        .single-input {
+            width: 100px;
+        }
+
+        .double-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .double-inputs input {
+            width: 100px;
+        }
+
+        /* input να ΜΗΝ γεμίζει όλη τη γραμμή */
+        .incoming-row .form-control {
+            width: 100px;          /* εδώ ορίζεις το μέγεθος */
+            flex: 0 0 auto;       /* αποτρέπει stretching */
+            text-align: center;
+        }
+        .add-button-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .violation-row {
+            display: flex;
+            /*align-items: flex-start;*/
+            align-items: center;
+            gap: 20px;
+        }
+
+        .violation-label {
+            font-weight: bold;
+            min-width: 120px;
+            /*margin-top: 90px;*/
+        }
+
+        .violation-fields {
+            flex: 1;
+        }
+
+        .violation-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .violation-item label {
+            width: 160px;
+            margin: 0;
+        }
+
+        .violation-input,
+        .total-field input {
+            width: 80px;
+            margin-left: 40px;
+            text-align: center;
+            /*justify-content: flex-end;*/
+        }
+        .highlight-orange {
+            background-color: darkorange;
+            padding: 10px;
+            border-radius: 6px;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .separator-line {
+            border: 0;
+            height: 2px;
+            background-color: #333;
+            margin: 15px 0;
+        }
+
     </style>
 </head>
 
@@ -90,9 +167,80 @@
             <div class="col-md-4">
                 <div class="panel">
 
-                    <h5>Εισερχόμενα Αεροσκάφη</h5>
 
-                    <div class="form-group-custom">
+                    <h3 class="text-center mb-3" style="background-color: bisque">ΕΙΣΕΡΧΟΜΕΝΑ Α/Φ</h3>
+                    <div class="form-group-custom mb-4" style="background-color: gold">
+
+                        <label class="text-center mb-2" style="font-size: larger">ΜΑΧΗΤΙΚΑ</label>
+
+                        <!-- 1. ΣΧΗΜΑΤΙΣΜΟΙ -->
+                        <div class="incoming-row" >
+                            <label>ΣΧΗΜΑΤΙΣΜΟΙ</label>
+                            <input type="number"
+                                   class="form-control single-input"
+                                   min="1"
+                                   placeholder="Πλήθος">
+                        </div>
+
+                        <!-- 2. Α/Φ -->
+                        <div class="incoming-row">
+                            <label>Α/Φ</label>
+                            <input type="number"
+                                   class="form-control single-input"
+                                   min="1"
+                                   placeholder="Πλήθος">
+                        </div>
+
+                        <!-- 3. ΟΠΛΑ (ΣΧΗΜ/ΑΦΗ) -->
+                        <div class="incoming-row">
+
+                            <label>ΟΠΛΑ (ΣΧΗΜ/ΑΦΗ)</label>
+
+                            <div class="double-inputs">
+
+                                <input type="number"
+                                       class="form-control"
+                                       min="1"
+                                       placeholder="ΣΧΗΜ"> /
+
+                                <input type="number"
+                                       class="form-control"
+                                       min="1"
+                                       placeholder="ΑΦΗ">
+
+                            </div>
+
+                        </div>
+
+                        <!-- 4. ΕΜΠΛΟΚΕΣ -->
+                        <div class="incoming-row">
+                            <label>ΕΜΠΛΟΚΕΣ</label>
+                            <input type="number"
+                                   class="form-control"
+                                   min="1"
+                                   placeholder="Πλήθος">
+                        </div>
+
+                        <!-- 5. ΔΥΤΙΚΑ ΤΟΥ 25 -->
+                        <div class="incoming-row">
+                            <label>ΔΥΤΙΚΑ ΤΟΥ 25</label>
+                            <input type="number"
+                                   class="form-control"
+                                   min="1"
+                                   placeholder="Πλήθος">
+                        </div>
+
+                    </div>
+
+                    <div class="section-divider"></div>
+                    <br>
+
+                    <div class="form-group-custom" style="background-color: burlywood">
+
+                        <div class="alert alert-info text-right mb-3">
+                           <strong>ΣΥΝΟΛΟ ΕΙΣΕΡΧΟΜΕΝΩΝ Α/Φ:
+                            <span id="incomingAircraftTotal" style="font-size: larger">0</span></strong>
+                        </div>
 
                         <label>ΜΑΧΗΤΙΚΑ</label>
 
@@ -106,13 +254,14 @@
                             </th:block>
                         </select>
 
-                        <div class="row mt-2">
+                        <div class="row mt-2" >
 
                             <div class="col-4">
                                 <input
                                         id="fighterQty"
                                         type="number"
-                                        class="form-control"
+                                        class="form-control quantity-input incoming-total"
+                                        width="40px"
                                         min="1"
                                         placeholder="Πλήθος">
                             </div>
@@ -123,7 +272,7 @@
 
                                     <input
                                             id="fighterArmed"
-                                            class="form-check-input"
+                                            class="form-check-input quantity-input incoming-total"
                                             type="checkbox">
 
                                     <label class="form-check-label">
@@ -134,7 +283,7 @@
 
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-4 add-button-container">
 
                                 <button
                                         type="button"
@@ -170,15 +319,15 @@
 
                         <div class="row mt-2">
 
-                            <div class="col-8">
+                            <div class="col-4">
                                 <input id="afnsQty"
                                        type="number"
-                                      class="form-control"
+                                       class="form-control quantity-input incoming-total"
                                        min="1"
                                        placeholder="Πλήθος">
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-8 text-end">
                                 <button type="button"
                                         class="btn btn-success"
                                         onclick="addItem('afnsSelect','afnsQty','afnsList')">
@@ -210,15 +359,15 @@
 
                         <div class="row mt-2">
 
-                            <div class="col-8">
+                            <div class="col-4">
                                 <input id="epQty"
                                        type="number"
-                                      class="form-control"
+                                       class="form-control quantity-input incoming-total"
                                        min="1"
                                        placeholder="Πλήθος">
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-8 text-end">
                                 <button type="button"
                                         class="btn btn-success"
                                         onclick="addItem('epSelect','epQty','epList')">
@@ -248,15 +397,15 @@
 
                         <div class="row mt-2">
 
-                            <div class="col-8">
+                            <div class="col-4">
                                 <input id="meaQty"
                                        type="number"
-                                      class="form-control"
+                                       class="form-control quantity-input incoming-total"
                                        min="1"
                                        placeholder="Πλήθος">
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-8 text-end">
                                 <button type="button"
                                         class="btn btn-success"
                                         onclick="addItem('meaSelect','meaQty','meaList')">
@@ -271,6 +420,7 @@
             <div class="section-divider"></div>
 
                     <div class="form-group-custom">
+
                         <label>ΑΛΛΑ</label>
 
                         <select id="allaSelect" class="form-select">
@@ -285,15 +435,15 @@
 
                         <div class="row mt-2">
 
-                            <div class="col-8">
+                            <div class="col-4">
                                 <input id="allaQty"
                                        type="number"
-                                      class="form-control"
+                                       class="form-control quantity-input incoming-total"
                                        min="1"
                                        placeholder="Πλήθος">
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-8 text-end">
                                 <button type="button"
                                         class="btn btn-success"
                                         onclick="addItem('allaSelect','allaQty','allaList')">
@@ -310,15 +460,237 @@
             </div>
 
             <!-- ΚΕΝΤΡΙΚΗ ΣΤΗΛΗ -->
-            <!-- ΚΕΝΤΡΙΚΗ ΣΤΗΛΗ -->
             <div class="col-md-4">
                 <div class="panel">
 
-                    <h5>Περιοχή Εισόδου</h5>
+                    <h3 class="text-center mb-3" style="background-color: bisque">ΣΥΝΟΛΑ ΠΑΡΑΒΑΣΕΩΝ - ΠΑΡΑΒΙΑΣΕΩΝ</h3>
 
-                    <div class="form-group-custom">
+                    <div class="form-group-custom mb-4" style="background-color: lightgreen">
 
-                        <label>ΠΕΡΙΟΧΗ ΕΙΣΟΔΟΥ</label>
+
+                        <div class="violation-row">
+                            <div class="violation-label">
+                                ΠΑΡΑΒΑΣΕΙΣ ΚΕΚ
+                            </div>
+
+                            <div class="violation-fields">
+
+                                <div class="violation-item">
+                                    <label>ΜΑΧΗΤΙΚΑ Α/Φ</label>
+                                    <input type="number"
+                                           id="violFighter"
+                                           class="form-control violation-input">
+                                </div>
+
+                                <div class="violation-item">
+                                    <label>ΑΦΝΣ</label>
+                                    <input type="number"
+                                           id="violAfns"
+                                           class="form-control violation-input">
+                                </div>
+
+                                <div class="violation-item">
+                                    <label>Ε/Π</label>
+                                    <input type="number"
+                                           id="violEp"
+                                           class="form-control violation-input">
+                                </div>
+
+                                <div class="violation-item">
+                                    <label>ΜΕΑ</label>
+                                    <input type="number"
+                                           id="violMea"
+                                           class="form-control violation-input">
+                                </div>
+
+                                <div class="violation-item">
+                                    <label>ΑΛΛΑ</label>
+                                    <input type="number"
+                                           id="violAlla"
+                                           class="form-control violation-input">
+                                </div>
+
+                                <div class="violation-item total-field" style="margin-top:25px;">
+                                    <label style="font-size: larger"><strong>ΣΥΝΟΛΟ</strong></label>
+                                    <input type="text"
+                                           id="violTotal"
+                                           style="background-color: darkgray"
+                                           class="form-control"
+                                           readonly
+                                           value="0">
+                                </div>
+
+<!--                                with bootstarps-->
+<!--                                <div class="violation-item total-field mt-4">-->
+<!--                                    <label style="font-size: larger"><strong>ΣΥΝΟΛΟ</strong></label>-->
+<!--                                    <input type="text"-->
+<!--                                           id="violTotal"-->
+<!--                                           class="form-control"-->
+<!--                                           readonly-->
+<!--                                           value="0">-->
+<!--                                </div>-->
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group-custom mb-4" style="background-color: lightgreen">
+
+                            <div class="violation-item highlight-orange" style="display:flex; align-items:center; gap:15px;">
+
+                                <label style="min-width:180px;">
+                                    ΠΑΡΑΒΑΣΕΙΣ ΤΜΑ
+                                </label>
+
+                                <input type="number"
+                                       id="paraviaseis_TMA"
+                                       class="form-control violation-input"
+                                       style="margin-left: 150px;">
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group-custom mb-4" style="background-color: lightgreen">
+
+
+                            <div class="violation-row">
+                                <div class="violation-label">
+                                    ΠΑΡΑΒΑΣΕΙΣ ΕΕΧ
+                                </div>
+
+                                <div class="violation-fields">
+
+                                    <div class="violation-item">
+                                        <label>ΜΑΧΗΤΙΚΑ Α/Φ</label>
+                                        <input type="number"
+                                               id="violFighter_EEX"
+                                               class="form-control violation-input">
+                                    </div>
+
+                                    <div class="violation-item">
+                                        <label>ΑΦΝΣ</label>
+                                        <input type="number"
+                                               id="violAfns_EEX"
+                                               class="form-control violation-input">
+                                    </div>
+
+                                    <div class="violation-item">
+                                        <label>Ε/Π</label>
+                                        <input type="number"
+                                               id="violEp_EEX"
+                                               class="form-control violation-input">
+                                    </div>
+
+                                    <div class="violation-item">
+                                        <label>ΜΕΑ</label>
+                                        <input type="number"
+                                               id="violMea_EEX"
+                                               class="form-control violation-input">
+                                    </div>
+
+                                    <div class="violation-item">
+                                        <label>ΑΛΛΑ</label>
+                                        <input type="number"
+                                               id="violAlla_EEX"
+                                               class="form-control violation-input">
+                                    </div>
+
+                                    <div class="violation-item total-field" style="margin-top:25px;">
+                                        <label style="font-size: larger"><strong>ΣΥΝΟΛΟ</strong></label>
+                                        <input type="text"
+                                               id="violTotal_EEX"
+                                               class="form-control"
+                                               style="background-color: darkgray"
+                                               readonly
+                                               value="0">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-divider"></div>
+
+                            <div class="form-group-custom mb-4">
+
+                                <div class="violation-row" style="background-color: lightgreen">
+
+                                    <div class="violation-fields">
+
+                                        <div class="violation-item">
+                                            <label>ΕΩΣ 6 ΝΜ</label>
+                                            <input type="number"
+                                                   id="minus6NM"
+                                                   style="margin-left: 190px;"
+                                                   class="form-control violation-input">
+                                        </div>
+
+                                        <div class="violation-item">
+                                            <label>ΑΝΩ ΤΩΝ 6 ΝΜ</label>
+                                            <input type="number"
+                                                   id="greater6NM"
+                                                   style="margin-left: 190px;"
+                                                   class="form-control violation-input">
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="section-divider"></div>
+
+                            <div class="form-group-custom mb-4" style="background-color: red">
+
+
+                                <div class="violation-row" style="background-color: red">
+
+                                    <div class="violation-fields">
+
+                                        <div class="violation-item">
+                                            <label>ΥΠΕΡΠΤΗΣΕΙΣ ΑΝΩ ΗΠΕΙΡΩΤΙΚΟΥ ΕΔΑΦΟΥΣ-ΝΗΣΩΝ</label>
+                                            <input type="number"
+                                                   id="flightsGrndIsl"
+                                                   style="margin-left: 190px;"
+                                                   class="form-control violation-input">
+                                        </div>
+
+                                        <div class="violation-item">
+                                            <label>ΥΠΕΡΠΤΗΣΕΙΣ ΑΝΩ Μ/Ν-Β/Ν</label>
+                                            <input type="number"
+                                                   id="flights_MN_BN"
+                                                   style="margin-left: 190px;"
+                                                   class="form-control violation-input">
+                                        </div>
+
+                                        <div class="violation-item total-field" style="background-color: aquamarine">
+                                            <label style="font-size: larger">
+                                                <strong>ΣΥΝΟΛΟ ΥΠΕΡΠΤΗΣΕΩΝ</strong>
+                                            </label>
+                                            <input type="text"
+                                                   id="flightsTotal"
+                                                   class="form-control"
+                                                   style="margin-left: 190px; font-weight: bold; background-color: darkgray"
+                                                   readonly
+                                                   value="0">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="section-divider"></div>
+
+                    <div class="form-group-custom" style="background-color: sandybrown">
+
+                        <label style="font-size: larger">ΠΕΡΙΟΧΗ ΕΙΣΟΔΟΥ</label>
+                        <br>
 
                         <select id="entryAreaSelect" class="form-select">
                             <option value="">-- ΤΥΠΟΣ --</option>
@@ -332,15 +704,15 @@
 
                         <div class="row mt-2">
 
-                            <div class="col-8">
+                            <div class="col-4">
                                 <input id="entryAreaQty"
                                        type="number"
-                                      class="form-control"
+                                      class="form-control quantity-input incoming-total"
                                        min="1"
                                        placeholder="Πλήθος">
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-8 text-end">
                                 <button type="button"
                                         class="btn btn-success"
                                         onclick="addItem('entryAreaSelect',
@@ -366,11 +738,40 @@
             <div class="col-md-4">
                 <div class="panel">
 
-                    <h5>Αναγνώριση</h5>
+                    <h3 class="text-center mb-3" style="background-color: bisque">ΑΝΑΓΝΩΡΙΣΕΙΣ ΑΠΟ ΕΛΛΗΝΙΚΑ Α/Φ</h3>
 
-                    <div class="form-group-custom">
 
-                        <label>ΣΥΝΟΛΟ Α/Φ ΑΝΑΓΝΩΡΙΣΗΣ</label>
+                    <div class="form-group-custom mb-4" style="background-color: cadetblue">
+                        <div class="incoming-row" >
+
+                            <label>ΣΥΝΟΛΟ ΑΝΑΓΝΩΡΙΣΕΩΝ ΑΠΟ ΜΑΧΗΤΙΚΑ</label>
+                            <input type="number"
+                                   class="form-control single-input"
+                                   style="margin-left: 100px"
+                                   min="1"
+                                   placeholder="Πλήθος">
+                        </div>
+                    </div>
+
+                    <div class="form-group-custom mb-4" style="background-color: cadetblue">
+                        <div class="incoming-row" >
+
+                            <label>ΣΧΗΜΑΤΙΣΜΟΙ-ΙΧΝΗ Α/Φ ΑΝΑΓΝΩΡΙΣΗΣ</label>
+                            <input type="number"
+                                   class="form-control single-input"
+                                   style="margin-left: 100px"
+                                   min="1"
+                                   placeholder="Πλήθος">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group-custom mb-4" style="background-color: cadetblue">
+
+                        <div class="alert alert-info text-right mb-3">
+                            <strong style="font-size: larger">ΣΥΝΟΛΟ Α/Φ ΑΝΑΓΝΩΡΙΣΗΣ:
+                            <span id="recognizedByFriendlyTotal">0</span></strong>
+                        </div>
 
                         <select id="friendlySelect" class="form-select">
                             <option value="">-- ΤΥΠΟΣ --</option>
@@ -384,31 +785,97 @@
 
                         <div class="row mt-2">
 
-                            <div class="col-8">
+                            <div class="col-4">
                                 <input id="friendlyQty"
                                        type="number"
-                                      class="form-control"
+                                      class="form-control quantity-input incoming-total"
                                        min="1"
                                        placeholder="Πλήθος">
                             </div>
 
-                            <div class="col-4">
+                            <div class="col-8 text-end">
                                 <button type="button"
                                         class="btn btn-success"
-                                        onclick="addItem('friendlySelect',
+                                        onclick="addItemFriendlyRecognized('friendlySelect',
                                              'friendlyQty',
                                              'friendlyList')">
 
                                     Προσθήκη
 
                                 </button>
+
                             </div>
 
                         </div>
+
                         <div id="friendlyList" class="mt-3"></div>
+
                     </div>
 
                     <div class="section-divider"></div>
+
+                    <div class="form-group-custom mb-4" style="background-color: red">
+
+
+                        <div class="violation-row" style="background-color: red">
+
+                            <div class="violation-fields">
+
+                                    <div class="violation-item">
+                                        <label>ΜΗ ΑΝΑΓΝΩΡΙΣΜΕΝΑ ΜΑΧΗΤΙΚΑ</label>
+                                        <input type="number"
+                                               id="unrecognizedAircrafts"
+                                               style="margin-left: 190px;"
+                                               class="form-control violation-input">
+                                    </div>
+                                    <hr class="separator-line">
+
+                                    <div class="violation-item">
+                                        <label>ΜΗ ΑΝΑΓΝΩΡΙΣΜΕΝΑ ΑΛΛΑ Α/Φ-Ε/Π-ΜΕΑ </label>
+                                        <input type="number"
+                                               id="unrecognized_fighters"
+                                               style="margin-left: 190px;"
+                                               class="form-control violation-input">
+                                    </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="section-divider"></div>
+                    <div class="form-group-custom mb-4" style="background-color: khaki">
+
+
+                        <div class="violation-row">
+
+                            <div class="violation-fields">
+
+                                <div class="violation-item">
+                                    <label>ΑΠΟΚΑΛΥΨΗ ΕΝΤΟΣ ATHINAI FIR</label>
+                                    <input type="number"
+                                           id="athinaiFir"
+                                           style="margin-left: 190px;"
+                                           class="form-control violation-input">
+                                </div>
+
+                                <div class="violation-item">
+                                    <label>ΠΕΡΙΟΧΗ ΑΠΟΚΑΛΥΨΗΣ</label>
+                                    <input type="text"
+                                           id="revelationArea"
+                                           style="margin-left: 190px;"
+                                           oninput="validate_text(this,'errorDescription')"
+                                           class="form-control violation-input">
+                                    <span id="errorDescription" style="color:red;"></span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -430,56 +897,19 @@
 </div>
 
 <script>
-    function updateSelected(selectElement, targetId) {
-        const text = selectElement.options[selectElement.selectedIndex].text;
-        const target = document.getElementById(targetId);
-
-        if (selectElement.value === "") {
-            target.innerText = "";
-        } else {
-            target.innerText =  text;
-        }
-    }
 
 
-    function updateAircraft(selectElement,
-                            detailsId,
-                            textId) {
-
-        const details =
-            document.getElementById(detailsId);
-
-        const text =
-            document.getElementById(textId);
-
-        if(selectElement.value === ""){
-
-            details.style.display = "none";
-            text.innerText = "";
-
-            return;
-        }
-
-        text.innerText =
-            selectElement.options[
-                selectElement.selectedIndex
-                ].text;
-
-        details.style.display = "block";
-    }
 
     let fighterCounter = 0;
+    let incomingAircraftItems = [];
+
+
 
     function addFighter() {
 
-        const select =
-            document.getElementById("fighterSelect");
-
-        const qty =
-            document.getElementById("fighterQty");
-
-        const armed =
-            document.getElementById("fighterArmed");
+        const select = document.getElementById("fighterSelect");
+        const qty = document.getElementById("fighterQty");
+        const armed = document.getElementById("fighterArmed");
 
         if (select.value === "") {
             alert("Επιλέξτε τύπο αεροσκάφους");
@@ -491,38 +921,28 @@
             return;
         }
 
-        const aircraft =
-            select.options[
-                select.selectedIndex
-                ].text;
+        const item = {
+            id: Date.now(),
+            type: select.options[select.selectedIndex].text,
+            qty: Number(qty.value),
+            armed: armed.checked
+        };
 
-        const list =
-            document.getElementById("fighterList");
+        incomingAircraftItems.push(item);
 
-        const row =
-            document.createElement("div");
+        const list = document.getElementById("fighterList");
 
-        row.className =
-            "row border rounded p-2 mb-2 align-items-center";
+        const row = document.createElement("div");
+        row.className = "row border rounded p-2 mb-2 align-items-center";
 
         row.innerHTML = `
-        <div class="col-4">
-            ${aircraft}
-        </div>
-
-        <div class="col-3">
-            ${qty.value}
-        </div>
-
-        <div class="col-3">
-            ${armed.checked ? 'Οπλισμένο' : 'Άοπλο'}
-        </div>
-
+        <div class="col-4">${item.type}</div>
+        <div class="col-3">${item.qty}</div>
+        <div class="col-3">${item.armed ? 'Οπλισμένο' : 'Άοπλο'}</div>
         <div class="col-2 text-end">
-            <button
-                type="button"
-                class="btn btn-danger btn-sm"
-                onclick="this.closest('.row').remove()">
+            <button type="button"
+                    class="btn btn-danger btn-sm"
+                    onclick="removeItem(${item.id}, this)">
                 X
             </button>
         </div>
@@ -530,59 +950,50 @@
 
         list.appendChild(row);
 
-        fighterCounter++;
+        updateIncomingTotal();
 
         select.selectedIndex = 0;
         qty.value = "";
         armed.checked = false;
     }
 
+
+
     function addItem(selectId, qtyId, listId) {
 
-        const select =
-            document.getElementById(selectId);
+        const select = document.getElementById(selectId);
+        const qty = document.getElementById(qtyId);
+        const list = document.getElementById(listId);
 
-        const qty =
-            document.getElementById(qtyId);
-
-        if(select.value === ""){
-            alert("Επιλέξτε τύπο");
+        // if (select.value === "" || qty.value === "") return;
+        if (select.value === "") {
+            alert("Επιλέξτε τύπο αεροσκάφους");
             return;
         }
 
-        if(qty.value === ""){
+        if (qty.value === "") {
             alert("Συμπληρώστε πλήθος");
             return;
         }
 
-        const text =
-            select.options[
-                select.selectedIndex
-                ].text;
+        const item = {
+            id: Date.now(),   // unique id
+            type: select.options[select.selectedIndex].text,
+            qty: Number(qty.value)
+        };
 
-        const list =
-            document.getElementById(listId);
+        incomingAircraftItems.push(item);
 
-        const row =
-            document.createElement("div");
-
-        row.className =
-            "row border rounded p-2 mb-2 align-items-center";
+        const row = document.createElement("div");
+        row.className = "row border rounded p-2 mb-2 align-items-center";
 
         row.innerHTML = `
-        <div class="col-8">
-            ${text}
-        </div>
-
-        <div class="col-2">
-            ${qty.value}
-        </div>
-
+        <div class="col-8">${item.type}</div>
+        <div class="col-2">${item.qty}</div>
         <div class="col-2 text-end">
-            <button
-                type="button"
-                class="btn btn-danger btn-sm"
-                onclick="this.closest('.row').remove()">
+            <button type="button"
+                    class="btn btn-danger btn-sm"
+                    onclick="removeItem(${item.id}, this)">
                 X
             </button>
         </div>
@@ -592,7 +1003,178 @@
 
         select.selectedIndex = 0;
         qty.value = "";
+
+        updateIncomingTotal();
     }
+
+    function addItemFriendlyRecognized(selectId, qtyId, listId) {
+
+        const select = document.getElementById(selectId);
+        const qty = document.getElementById(qtyId);
+        const list = document.getElementById(listId);
+
+        // if (select.value === "" || qty.value === "") return;
+        if (select.value === "") {
+            alert("Επιλέξτε τύπο αεροσκάφους");
+            return;
+        }
+
+        if (qty.value === "") {
+            alert("Συμπληρώστε πλήθος");
+            return;
+        }
+
+        const item = {
+            id: Date.now(),   // unique id
+            type: select.options[select.selectedIndex].text,
+            qty: Number(qty.value)
+        };
+
+        incomingAircraftItems.push(item);
+
+        const row = document.createElement("div");
+        row.className = "row border rounded p-2 mb-2 align-items-center";
+
+        row.innerHTML = `
+        <div class="col-8">${item.type}</div>
+        <div class="col-2">${item.qty}</div>
+        <div class="col-2 text-end">
+            <button type="button"
+                    class="btn btn-danger btn-sm"
+                    onclick="removeItem(${item.id}, this)">
+                X
+            </button>
+        </div>
+    `;
+
+        list.appendChild(row);
+
+        select.selectedIndex = 0;
+        qty.value = "";
+
+        updateFriendlyRec();
+    }
+
+    function updateFriendlyRec() {
+
+        let total = incomingAircraftItems.reduce((sum, item) => {
+            return sum + (item.qty || 0);
+        }, 0);
+
+        document.getElementById("recognizedByFriendlyTotal").innerText = total;
+    }
+
+
+    function removeItem(id, btn) {
+
+        incomingAircraftItems =
+            incomingAircraftItems.filter(x => x.id !== id);
+
+        btn.closest('.row').remove();
+
+        updateIncomingTotal();
+    }
+
+    function updateIncomingTotal() {
+
+        let total = incomingAircraftItems.reduce((sum, item) => {
+            return sum + (item.qty || 0);
+        }, 0);
+
+        document.getElementById("incomingAircraftTotal").innerText = total;
+    }
+
+
+    function calculateViolationTotal() {
+
+        const fighter =
+            Number(document.getElementById("violFighter").value) || 0;
+
+        const afns =
+            Number(document.getElementById("violAfns").value) || 0;
+
+        const ep =
+            Number(document.getElementById("violEp").value) || 0;
+
+        const mea =
+            Number(document.getElementById("violMea").value) || 0;
+
+        const alla =
+            Number(document.getElementById("violAlla").value) || 0;
+
+        document.getElementById("violTotal").value =
+            fighter + afns + ep + mea + alla;
+    }
+
+    document
+        .querySelectorAll(".violation-input")
+        .forEach(input => {
+            input.addEventListener("input",
+                calculateViolationTotal);
+        });
+
+    function calculateViolationTotal_EEX() {
+
+        const fighter =
+            Number(document.getElementById("violFighter_EEX").value) || 0;
+
+        const afns =
+            Number(document.getElementById("violAfns_EEX").value) || 0;
+
+        const ep =
+            Number(document.getElementById("violEp_EEX").value) || 0;
+
+        const mea =
+            Number(document.getElementById("violMea_EEX").value) || 0;
+
+        const alla =
+            Number(document.getElementById("violAlla_EEX").value) || 0;
+
+        document.getElementById("violTotal_EEX").value =
+            fighter + afns + ep + mea + alla;
+    }
+
+    document
+        .querySelectorAll(".violation-input")
+        .forEach(input => {
+            input.addEventListener("input",
+                calculateViolationTotal_EEX);
+        });
+
+    function calculateViolationTotal_Flights() {
+
+        const flightGrndIsl =
+            Number(document.getElementById("flightsGrndIsl").value) || 0;
+
+        const flight_MN_BN =
+            Number(document.getElementById("flights_MN_BN").value) || 0;
+
+
+
+        document.getElementById("flightsTotal").value =
+            flightGrndIsl + flight_MN_BN;
+    }
+
+    document
+        .querySelectorAll(".violation-input")
+        .forEach(input => {
+            input.addEventListener("input",
+                calculateViolationTotal_Flights);
+        });
+
+    function validate_text(input, errorSpanId) {
+
+        const regex = /^[A-Za-zΑ-Ωα-ωΆΈΉΊΌΎΏάέήί\s]+$/;
+        const errorSpan = document.getElementById(errorSpanId);
+
+        if (!regex.test(input.value)) {
+            errorSpan.textContent =
+                "Επιτρέπονται μόνο γράμματα.";
+        } else {
+            errorSpan.textContent = "";
+        }
+    }
+
 
 
 </script>
