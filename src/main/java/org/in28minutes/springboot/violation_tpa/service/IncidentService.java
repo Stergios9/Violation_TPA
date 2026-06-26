@@ -1,6 +1,6 @@
 package org.in28minutes.springboot.violation_tpa.service;
 
-import org.in28minutes.springboot.violation_tpa.dto.IncidentForm;
+import org.in28minutes.springboot.violation_tpa.dto.IncidentFormDTO;
 import org.in28minutes.springboot.violation_tpa.dto.IncomingAircraftDTO;
 import org.in28minutes.springboot.violation_tpa.entity.*;
 import org.in28minutes.springboot.violation_tpa.repository.AircraftTypeRepository;
@@ -32,7 +32,7 @@ public class IncidentService {
     }
 
     @Transactional
-    public void saveFullIncident(IncidentForm form) {
+    public void saveFullIncident(IncidentFormDTO form) {
 
         // 1. Find related entities
         EntryArea area = entryAreaRepository.findById(form.getEntryAreaId())

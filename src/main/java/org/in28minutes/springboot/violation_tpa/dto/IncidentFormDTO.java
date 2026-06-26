@@ -3,7 +3,7 @@ package org.in28minutes.springboot.violation_tpa.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-public class IncidentForm {
+public class IncidentFormDTO {
 
     private LocalDate incidentDate;
 

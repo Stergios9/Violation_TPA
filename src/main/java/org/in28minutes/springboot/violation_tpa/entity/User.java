@@ -1,8 +1,13 @@
 package org.in28minutes.springboot.violation_tpa.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Date;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -15,18 +20,43 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String role;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
-    public User() {
-    }
+    private String rank;
+    private String comments;
+    private String lastname;
+    private String firstname;
+    private String ip;
 
-    public User(String username, String password, String role, Long id) {
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastLogin;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastPasswordReset;
+
+    public User() {}
+
+    public User(Long id, String username, String password, Role role,
+                String rank, String comments, String lastname,
+                String firstname, String ip,
+                Date lastLogin, Date lastPasswordReset) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
-        this.id = id;
+        this.rank = rank;
+        this.comments = comments;
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.ip = ip;
+        this.lastLogin = lastLogin;
+        this.lastPasswordReset = lastPasswordReset;
     }
+
+    // getters & setters...
+
 
     public Long getId() {
         return id;
@@ -52,11 +82,67 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public Date getLastPasswordReset() {
+        return lastPasswordReset;
+    }
+
+    public void setLastPasswordReset(Date lastPasswordReset) {
+        this.lastPasswordReset = lastPasswordReset;
     }
 }
