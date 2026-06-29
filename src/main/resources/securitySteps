@@ -1,3 +1,27 @@
 1) Create SecurityConfig class
 2) create MyUserDetailsService
 3) UserPrincipal
+
+***** Encryption & Decryption *****
+1) Symmetric Cryptography
+2) Asymmetric Cryptography
+
+In Encryption & Decryption you can use a private and a public key. When you encrypt the data with a private key
+then you have to decrypt  with a public key and the opposite
+
+For example, when 'A' want to send a message to 'B' will use the public key of 'B' to encrypt and when the B
+receive the message it will use it's private key to decrypt it. SO, 'C' can't read the message because don't hve the private key of B
+Problem: 'C' can hack the message from 'A', decrypt it with B's public key, change it, and send it to B. So, B can't understand that the message is
+from C and not from A
+Solution --> 'A' will encrypt the message with his own private key instead(instead B's public key because C can use it also). After that, message goes to
+B and B can decrypt it with only one way: A's public key(because it was encrypted with A's private key). If the decryption is possible it means that only A could have sent it.
+--> If 'C' can decrypt it with A's public key and encrypt it with his own private key. But when it comes to B, B can not decrypt it with A's public key, so something is wrong(it is not coming from A)
+
+But one problem here: we don't have security here. Only the proof who sent the message and anyone can read data
+For that reason we have double encryption
+
+
+** Double encryption
+'A' want to send a message to 'B' and uses B's public key to encrypt(first layer done). Then, the same packet will encrypted again with A's private key.
+When the message arrives at B, it decrypt it with A's public key(that is also a proof that A sent it) and package is still encrypted. Now, B uses it's own private key to do
+the second decryption

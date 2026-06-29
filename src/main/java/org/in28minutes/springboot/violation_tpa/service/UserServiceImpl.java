@@ -3,7 +3,6 @@ package org.in28minutes.springboot.violation_tpa.service;
 import org.in28minutes.springboot.violation_tpa.entity.User;
 import org.in28minutes.springboot.violation_tpa.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,18 +18,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Override
-    public User registerUser(User user){
-        //Pairnoume to plain text tou password
-        String plainPassword = user.getPassword();
-
-        //2. Το κρυπτογραφούμε
-        String encodedPassword = passwordEncoder.encode(plainPassword);
-
-        user.setPassword(encodedPassword);
-
-        return userRepository.save(user);
-    }
 
     @Override
     public long countUsers() {
@@ -49,6 +36,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return userRepository.save(user);
     }
+
+    //    @Override
+//    public User registerUser(User user){
+//        //Pairnoume to plain text tou password
+//        String plainPassword = user.getPassword();
+//
+//        //2. Το κρυπτογραφούμε
+//        String encodedPassword = passwordEncoder.encode(plainPassword);
+//
+//        user.setPassword(encodedPassword);
+//
+//        return userRepository.save(user);
+//    }
 }

@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface UserService {
 
-    User registerUser(User user);
-
     long countUsers();
 
     List<User> getAllUsers();

@@ -22,6 +22,7 @@ public class DataInitializer implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+
     public DataInitializer(AircraftTypeService aircraftTypeService, EntryAreaService entryAreaService, FriendlyAircraftService friendlyAircraftService, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.aircraftTypeService = aircraftTypeService;
         this.entryAreaService = entryAreaService;
