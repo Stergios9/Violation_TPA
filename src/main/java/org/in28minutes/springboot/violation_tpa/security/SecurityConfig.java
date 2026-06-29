@@ -1,17 +1,17 @@
 package org.in28minutes.springboot.violation_tpa.security;
 
-import org.in28minutes.springboot.violation_tpa.service.CustomUserDetailsService;
-import org.in28minutes.springboot.violation_tpa.service.UserDetailsService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
@@ -23,8 +23,21 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public AuthenticationProvider authenticationProvider() {
+
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+
+        return provider;
+
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http)  throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable())
@@ -35,7 +48,7 @@ public class SecurityConfig {
                                 "/images/**")
                         .permitAll()
 
-                        // USER level
+                        // TO /home είναι προσβάσιμο από -->
                         .requestMatchers("/home").hasAnyRole("USER", "ADMIN", "SUPER_ADMIN")
 
                         // ADMIN level
@@ -47,7 +60,7 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/home", true)
+                        .defaultSuccessUrl("/home", true) //μετα από επιτυχημένο login πηγαίνει εδώ
                         .failureUrl("/login?error")
                         .permitAll()
                 )
@@ -58,6 +71,33 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//
+//        UserDetails user1 = User
+//                .withDefaultPasswordEncoder()
+//                .username("user1")
+//                .password("123")
+//                .roles("USER")
+//                .build();
+//
+//        UserDetails admin = User
+//                .withDefaultPasswordEncoder()
+//                .username("admin")
+//                .password("123")
+//                .roles("ADMIN","USER")
+//                .build();
+//
+//        UserDetails superAdmin = User
+//                .withDefaultPasswordEncoder()
+//                .username("superAdmin")
+//                .password("123")
+//                .roles("SUPER_ADMIN","ADMIN","USER")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(user1,admin,superAdmin);
+//    }
 }
 
 
