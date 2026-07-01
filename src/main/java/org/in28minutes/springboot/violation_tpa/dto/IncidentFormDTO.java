@@ -7,11 +7,15 @@ public class IncidentFormDTO {
 
     private LocalDate incidentDate;
 
-    private Long entryAreaId;
+    private Integer sxhmatismoi;
+    private Integer aircraft;
+    private Integer OplaSxhmatismoi;
+    private Integer OplaAircrafts;
+    private Integer engagements;
+    private Integer westTo25;
 
-    private Long friendlyAircraftId;
-
-    private List<IncomingAircraftDTO> incomingAircraft;
+    public IncidentFormDTO() {
+    }
 
     public LocalDate getIncidentDate() {
         return incidentDate;
@@ -21,27 +25,51 @@ public class IncidentFormDTO {
         this.incidentDate = incidentDate;
     }
 
-    public Long getEntryAreaId() {
-        return entryAreaId;
+    public Integer getSxhmatismoi() {
+        return sxhmatismoi;
     }
 
-    public void setEntryAreaId(Long entryAreaId) {
-        this.entryAreaId = entryAreaId;
+    public void setSxhmatismoi(Integer sxhmatismoi) {
+        this.sxhmatismoi = sxhmatismoi;
     }
 
-    public Long getFriendlyAircraftId() {
-        return friendlyAircraftId;
+    public Integer getAircraft() {
+        return aircraft;
     }
 
-    public void setFriendlyAircraftId(Long friendlyAircraftId) {
-        this.friendlyAircraftId = friendlyAircraftId;
+    public void setAircraft(Integer aircraft) {
+        this.aircraft = aircraft;
     }
 
-    public List<IncomingAircraftDTO> getIncomingAircraft() {
-        return incomingAircraft;
+    public Integer getOplaSxhmatismoi() {
+        return OplaSxhmatismoi;
     }
 
-    public void setIncomingAircraft(List<IncomingAircraftDTO> incomingAircraft) {
-        this.incomingAircraft = incomingAircraft;
+    public void setOplaSxhmatismoi(Integer oplaSxhmatismoi) {
+        OplaSxhmatismoi = oplaSxhmatismoi;
+    }
+
+    public Integer getOplaAircrafts() {
+        return OplaAircrafts;
+    }
+
+    public void setOplaAircrafts(Integer oplaAircrafts) {
+        OplaAircrafts = oplaAircrafts;
+    }
+
+    public Integer getEngagements() {
+        return engagements;
+    }
+
+    public void setEngagements(Integer engagements) {
+        this.engagements = engagements;
+    }
+
+    public Integer getWestTo25() {
+        return westTo25;
+    }
+
+    public void setWestTo25(Integer westTo25) {
+        this.westTo25 = westTo25;
     }
 }

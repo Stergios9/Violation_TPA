@@ -25,3 +25,5 @@ For that reason we have double encryption
 'A' want to send a message to 'B' and uses B's public key to encrypt(first layer done). Then, the same packet will encrypted again with A's private key.
 When the message arrives at B, it decrypt it with A's public key(that is also a proof that A sent it) and package is still encrypted. Now, B uses it's own private key to do
 the second decryption
+
+** JWT(https://www.jwt.io/) Algorithm: HS256

@@ -15,11 +15,11 @@ public class IncidentController {
         this.incidentService = incidentService;
     }
 
-    @PostMapping("/save")
-    public String saveIncident(@ModelAttribute IncidentFormDTO form) {
-
-        incidentService.saveFullIncident(form);
-
-        return "redirect:/";
-    }
+//    @PostMapping("/save")
+//    public String saveIncident(@ModelAttribute IncidentFormDTO form) {
+//
+//        incidentService.saveFullIncident(form);
+//
+//        return "redirect:/";
+//    }
 }

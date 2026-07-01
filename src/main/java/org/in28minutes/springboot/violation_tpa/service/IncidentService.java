@@ -31,42 +31,42 @@ public class IncidentService {
         this.aircraftTypeRepository = aircraftTypeRepository;
     }
 
-    @Transactional
-    public void saveFullIncident(IncidentFormDTO form) {
-
-        // 1. Find related entities
-        EntryArea area = entryAreaRepository.findById(form.getEntryAreaId())
-                .orElseThrow();
-
-        FriendlyAircraft friendly = friendlyAircraftRepository.findById(form.getFriendlyAircraftId())
-                .orElseThrow();
-
-        // 2. Create Incident
-        Incident incident = new Incident();
-        incident.setIncidentDate(form.getIncidentDate());
-        incident.setEntryArea(area);
-        incident.setFriendlyAircraft(friendly);
-
-        // 3. Save incident first (to get ID)
-        incident = incidentRepository.save(incident);
-
-        // 4. Save incoming aircraft list
-        for (IncomingAircraftDTO dto : form.getIncomingAircraft()) {
-
-            AircraftType type = aircraftTypeRepository.findById(dto.getAircraftTypeId())
-                    .orElseThrow();
-
-            IncomingAircraft ia = new IncomingAircraft();
-            ia.setAircraftType(type);
-            ia.setQuantity(dto.getQuantity());
-            ia.setIncident(incident);
-
-            incident.getIncomingAircraft().add(ia);
-        }
-
-        // 5. Final save (cascade handles list)
-        incidentRepository.save(incident);
-    }
+//    @Transactional
+//    public void saveFullIncident(IncidentFormDTO form) {
+//
+//        // 1. Find related entities
+//        EntryArea area = entryAreaRepository.findById(form.getEntryAreaId())
+//                .orElseThrow();
+//
+//        FriendlyAircraft friendly = friendlyAircraftRepository.findById(form.getFriendlyAircraftId())
+//                .orElseThrow();
+//
+//        // 2. Create Incident
+//        Incident incident = new Incident();
+//        incident.setIncidentDate(form.getIncidentDate());
+//        incident.setEntryArea(area);
+//        incident.setFriendlyAircraft(friendly);
+//
+//        // 3. Save incident first (to get ID)
+//        incident = incidentRepository.save(incident);
+//
+//        // 4. Save incoming aircraft list
+//        for (IncomingAircraftDTO dto : form.getIncomingAircraft()) {
+//
+//            AircraftType type = aircraftTypeRepository.findById(dto.getAircraftTypeId())
+//                    .orElseThrow();
+//
+//            IncomingAircraft ia = new IncomingAircraft();
+//            ia.setAircraftType(type);
+//            ia.setQuantity(dto.getQuantity());
+//            ia.setIncident(incident);
+//
+//            incident.getIncomingAircraft().add(ia);
+//        }
+//
+//        // 5. Final save (cascade handles list)
+//        incidentRepository.save(incident);
+//    }
 
     public List<Incident> getAll() {
         return incidentRepository.findAll();

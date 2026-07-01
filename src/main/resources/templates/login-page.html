@@ -136,7 +136,6 @@
     </style>
 </head>
 <body>
-
 <div class="login-wrapper">
     <div class="login-container">
         <div class="text-center">
@@ -163,24 +162,37 @@
 
             <div class="mb-3">
                 <label class="form-label">Username</label>
+
                 <input type="text"
                        name="username"
+                       id="username"
                        class="form-control"
                        placeholder="Το όνομα χρήστη σας"
                        required autofocus>
+
+                <span id="usernameError"
+                      style="color:red; font-size: 0.85rem; display:block; margin-top:5px;"></span>
             </div>
 
             <div class="mb-4">
                 <label class="form-label">Password</label>
+
                 <input type="password"
                        name="password"
                        class="form-control"
                        placeholder="Ο κωδικός σας"
                        required>
+
+                <span id="passwordError"
+                      style="color:red; font-size: 0.85rem; display:block; margin-top:5px;"></span>
             </div>
 
             <div class="d-grid gap-3">
-                <button type="submit" class="btn btn-login shadow-sm">Είσοδος</button>
+                <button type="submit"
+                        class="btn btn-login shadow-sm"
+                        id="loginBtn">
+                    Είσοδος
+                </button>
 
                 <div class="position-relative my-2">
                     <hr class="text-muted">
@@ -194,12 +206,111 @@
     </div>
 </div>
 
-<script>
+<script th:attr="nonce=${cspNonce}">
+
+
     // Καθαρισμός του URL από το ?error
     if (window.history.replaceState) {
         const url = window.location.protocol + "//" + window.location.host + window.location.pathname;
         window.history.replaceState({path: url}, '', url);
     }
+
+
+    //  Validate password input
+    // document.addEventListener("DOMContentLoaded", function () {
+    //
+    //     const input = document.querySelector('input[name="password"]');
+    //     const loginBtn = document.getElementById("loginBtn");
+    //     const errorSpan = document.getElementById("passwordError");
+    //
+    //     function validate_password() {
+    //
+    //         const value = input.value;
+    //
+    //         const regex = /^[A-Za-z0-9!@#$%^&*()_+=\-]{6,}$/;
+    //
+    //         let isValid = true;
+    //
+    //         if (value.length === 0) {
+    //             errorSpan.textContent = "Ο κωδικός είναι υποχρεωτικός.";
+    //             isValid = false;
+    //         }
+    //         else if (!regex.test(value)) {
+    //             errorSpan.textContent = "Ο κωδικός πρέπει να έχει τουλάχιστον 6 χαρακτήρες.";
+    //             isValid = false;
+    //         }
+    //         else {
+    //             errorSpan.textContent = "";
+    //             isValid = true;
+    //         }
+    //
+    //         input.classList.toggle("is-invalid", !isValid);
+    //         input.classList.toggle("is-valid", isValid);
+    //
+    //         loginBtn.disabled = !isValid;
+    //     }
+    //
+    //     input.addEventListener("input", validate_password);
+    // });
+
+    // Validate username input
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.querySelector('input[name="password"]');
+        const loginBtn = document.getElementById("loginBtn");
+
+        const usernameError = document.getElementById("usernameError");
+        const passwordError = document.getElementById("passwordError");
+
+        function validateForm() {
+
+            let valid = true;
+
+            // USERNAME RULES
+            const username = usernameInput.value.trim();
+            if (username.length < 3) {
+                usernameError.textContent = "Το username πρέπει να έχει τουλάχιστον 3 χαρακτήρες.";
+                usernameInput.classList.add("is-invalid");
+                usernameInput.classList.remove("is-valid");
+                valid = false;
+            } else {
+                usernameError.textContent = "";
+                usernameInput.classList.remove("is-invalid");
+                usernameInput.classList.add("is-valid");
+            }
+
+            // PASSWORD RULES
+            const password = passwordInput.value;
+
+            const regex = /^[A-Za-z0-9!@#$%^&*()_+=\-]{6,}$/;
+
+            if (password.length === 0) {
+                passwordError.textContent = "Ο κωδικός είναι υποχρεωτικός.";
+                passwordInput.classList.add("is-invalid");
+                passwordInput.classList.remove("is-valid");
+                valid = false;
+            }
+            else if (!regex.test(password)) {
+                passwordError.textContent = "Ο κωδικός πρέπει να έχει τουλάχιστον 6 χαρακτήρες.";
+                passwordInput.classList.add("is-invalid");
+                passwordInput.classList.remove("is-valid");
+                valid = false;
+            }
+            else {
+                passwordError.textContent = "";
+                passwordInput.classList.remove("is-invalid");
+                passwordInput.classList.add("is-valid");
+            }
+
+            // BUTTON STATE
+            loginBtn.disabled = !valid;
+        }
+
+        usernameInput.addEventListener("input", validateForm);
+        passwordInput.addEventListener("input", validateForm);
+    });
+
 </script>
 
 </body>

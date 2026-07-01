@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Παραβάσεις - Παραβιάσεις Τουρκικών Διεισδύσεων</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f4f6f9;
+
+    }
+
+    .panel {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      min-height: 600px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .title {
+      text-align: center;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    .form-group-custom {
+      text-align: center;
+      margin-bottom: 20px;
+      background-color: burlywood;
+    }
+
+    .form-group-custom .form-select {
+      width: 25%;
+      margin: 0 auto;
+    }
+
+    .form-group-custom label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .section-divider {
+      height: 5px;
+      background-color: #1A494D;
+      margin: 30px 0;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(26, 73, 77, 0.4);
+    }
+    .incoming-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    /* label σταθερό */
+    .incoming-row label {
+      width: 50%;
+      font-weight: 600;
+    }
+    .single-input {
+      width: 100px;
+    }
+
+    .double-inputs {
+      display: flex;
+      gap: 10px;
+    }
+
+    .double-inputs input {
+      width: 100px;
+    }
+
+    /* input να ΜΗΝ γεμίζει όλη τη γραμμή */
+    .incoming-row .form-control {
+      width: 100px;          /* εδώ ορίζεις το μέγεθος */
+      flex: 0 0 auto;       /* αποτρέπει stretching */
+      text-align: center;
+    }
+    .add-button-container {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .violation-row {
+      display: flex;
+      /*align-items: flex-start;*/
+      align-items: center;
+      gap: 20px;
+    }
+
+    .violation-label {
+      font-weight: bold;
+      min-width: 120px;
+      /*margin-top: 90px;*/
+    }
+
+    .violation-fields {
+      flex: 1;
+    }
+
+    .violation-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .violation-item label {
+      width: 160px;
+      margin: 0;
+    }
+
+    .violation-input,
+    .total-field input {
+      width: 80px;
+      margin-left: 40px;
+      text-align: center;
+      /*justify-content: flex-end;*/
+    }
+    .highlight-orange {
+      background-color: darkorange;
+      padding: 10px;
+      border-radius: 6px;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .separator-line {
+      border: 0;
+      height: 2px;
+      background-color: #333;
+      margin: 15px 0;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+  <h3 class="title">Παραβάσεις - Παραβιάσεις Τουρκικών Διεισδύσεων</h3>
+
+  <!-- FORM START -->
+  <form th:action="@{/incident/save}" method="post">
+
+    <!-- Ημερομηνία -->
+    <div class="row mb-3">
+      <div class="col-12 text-center">
+        <label>Ημερομηνία:</label>
+        <input type="date"
+               class="form-control w-25 mx-auto"
+               name="incidentDate"
+               required>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <!-- ΑΡΙΣΤΕΡΗ ΣΤΗΛΗ -->
+      <div class="col-md-4">
+        <div class="panel">
+
+
+          <h3 class="text-center mb-3" style="background-color: bisque">ΕΙΣΕΡΧΟΜΕΝΑ Α/Φ</h3>
+          <div class="form-group-custom mb-4" style="background-color: gold">
+
+            <label class="text-center mb-2" style="font-size: larger">ΜΑΧΗΤΙΚΑ</label>
+
+            <!-- 1. ΣΧΗΜΑΤΙΣΜΟΙ -->
+            <div class="incoming-row" >
+              <label>ΣΧΗΜΑΤΙΣΜΟΙ</label>
+              <input type="number"
+                     class="form-control single-input"
+                     name="sxhmatismoi"
+                     min="1"
+                     placeholder="Πλήθος">
+            </div>
+
+            <!-- 2. Α/Φ -->
+            <div class="incoming-row">
+              <label>Α/Φ</label>
+              <input type="number"
+                     class="form-control single-input"
+                     name="aircraft"
+                     min="1"
+                     placeholder="Πλήθος">
+            </div>
+
+            <!-- 3. ΟΠΛΑ (ΣΧΗΜ/ΑΦΗ) -->
+            <div class="incoming-row">
+
+              <label>ΟΠΛΑ (ΣΧΗΜ/ΑΦΗ)</label>
+
+              <div class="double-inputs">
+
+                <input type="number"
+                       class="form-control"
+                       name="OplaSxhmatismoi"
+                       min="1"
+                       placeholder="ΣΧΗΜ"> /
+
+                <input type="number"
+                       class="form-control"
+                       name="OplaAircrafts"
+                       min="1"
+                       placeholder="ΑΦΗ">
+
+              </div>
+
+            </div>
+
+            <!-- 4. ΕΜΠΛΟΚΕΣ -->
+            <div class="incoming-row">
+              <label>ΕΜΠΛΟΚΕΣ</label>
+              <input type="number"
+                     class="form-control"
+                     name="engagements"
+                     min="1"
+                     placeholder="Πλήθος">
+            </div>
+
+            <!-- 5. ΔΥΤΙΚΑ ΤΟΥ 25 -->
+            <div class="incoming-row">
+              <label>ΔΥΤΙΚΑ ΤΟΥ 25</label>
+              <input type="number"
+                     class="form-control"
+                     name="westTo25"
+                     min="1"
+                     placeholder="Πλήθος">
+            </div>
+
+          </div>
+
+          <div class="section-divider"></div>
+          <br>
+
+          <div class="form-group-custom" style="background-color: burlywood">
+
+            <div class="alert alert-info text-right mb-3">
+              <strong>ΣΥΝΟΛΟ ΕΙΣΕΡΧΟΜΕΝΩΝ Α/Φ:
+                <span id="incomingAircraftTotal" style="font-size: larger">0</span></strong>
+            </div>
+
+            <label>ΜΑΧΗΤΙΚΑ</label>
+
+            <select id="fighterSelect" class="form-select">
+              <option value="">-- ΤΥΠΟΣ --</option>
+
+              <th:block th:each="a : ${aircraftGrouped['ΜΑΧΗΤΙΚΑ']}">
+                <option th:value="${a.id}"
+                        th:text="${a.typeName}">
+                </option>
+              </th:block>
+            </select>
+
+            <div class="row mt-2" >
+
+              <div class="col-4">
+                <input
+                        id="fighterQty"
+                        type="number"
+                        class="form-control quantity-input incoming-total"
+                        width="40px"
+                        min="1"
+                        placeholder="Πλήθος">
+              </div>
+
+              <div class="col-4">
+
+                <div class="form-check mt-2">
+
+                  <input
+                          id="fighterArmed"
+                          class="form-check-input quantity-input incoming-total"
+                          type="checkbox">
+
+                  <label class="form-check-label">
+                    Οπλισμένο
+                  </label>
+
+                </div>
+
+              </div>
+
+              <div class="col-4 add-button-container">
+
+                <button
+                        type="button"
+                        class="btn btn-success"
+                        onclick="addFighter()">
+
+                  Προσθήκη
+
+                </button>
+
+              </div>
+
+            </div>
+
+            <div id="fighterList" class="mt-3"></div>
+          </div>
+
+          <div class="section-divider"></div>
+
+          <div class="form-group-custom">
+
+            <label>ΑΦΝΣ</label>
+
+            <select id="afnsSelect" class="form-select">
+              <option value="">-- ΤΥΠΟΣ --</option>
+
+              <th:block th:each="a : ${aircraftGrouped['ΑΦΝΣ']}">
+                <option th:value="${a.id}"
+                        th:text="${a.typeName}">
+                </option>
+              </th:block>
+            </select>
+
+            <div class="row mt-2">
+
+              <div class="col-4">
+                <input id="afnsQty"
+                       type="number"
+                       class="form-control quantity-input incoming-total"
+                       min="1"
+                       placeholder="Πλήθος">
+              </div>
+
+              <div class="col-8 text-end">
+                <button type="button"
+                        class="btn btn-success"
+                        onclick="addItem('afnsSelect','afnsQty','afnsList')">
+                  Προσθήκη
+                </button>
+              </div>
+
+            </div>
+
+            <div id="afnsList" class="mt-3"></div>
+
+          </div>
+
+          <div class="section-divider"></div>
+
+          <div class="form-group-custom">
+
+            <label>Ε/Π</label>
+
+            <select id="epSelect" class="form-select">
+              <option value="">-- ΤΥΠΟΣ --</option>
+
+              <th:block th:each="a : ${aircraftGrouped['Ε/Π']}">
+                <option th:value="${a.id}"
+                        th:text="${a.typeName}">
+                </option>
+              </th:block>
+            </select>
+
+            <div class="row mt-2">
+
+              <div class="col-4">
+                <input id="epQty"
+                       type="number"
+                       class="form-control quantity-input incoming-total"
+                       min="1"
+                       placeholder="Πλήθος">
+              </div>
+
+              <div class="col-8 text-end">
+                <button type="button"
+                        class="btn btn-success"
+                        onclick="addItem('epSelect','epQty','epList')">
+                  Προσθήκη
+                </button>
+              </div>
+
+            </div>
+
+            <div id="epList" class="mt-3"></div>
+
+          </div>
+          <div class="section-divider"></div>
+          <div class="form-group-custom">
+
+            <label>ΜΕΑ</label>
+
+            <select id="meaSelect" class="form-select">
+              <option value="">-- ΤΥΠΟΣ --</option>
+
+              <th:block th:each="a : ${aircraftGrouped['ΜΕΑ']}">
+                <option th:value="${a.id}"
+                        th:text="${a.typeName}">
+                </option>
+              </th:block>
+            </select>
+
+            <div class="row mt-2">
+
+              <div class="col-4">
+                <input id="meaQty"
+                       type="number"
+                       class="form-control quantity-input incoming-total"
+                       min="1"
+                       placeholder="Πλήθος">
+              </div>
+
+              <div class="col-8 text-end">
+                <button type="button"
+                        class="btn btn-success"
+                        onclick="addItem('meaSelect','meaQty','meaList')">
+                  Προσθήκη
+                </button>
+              </div>
+
+            </div>
+            <div id="meaList" class="mt-3"></div>
+          </div>
+
+          <div class="section-divider"></div>
+
+          <div class="form-group-custom">
+
+            <label>ΑΛΛΑ</label>
+
+            <select id="allaSelect" class="form-select">
+              <option value="">-- ΤΥΠΟΣ --</option>
+
+              <th:block th:each="a : ${aircraftGrouped['ΑΛΛΑ']}">
+                <option th:value="${a.id}"
+                        th:text="${a.typeName}">
+                </option>
+              </th:block>
+            </select>
+
+            <div class="row mt-2">
+
+              <div class="col-4">
+                <input id="allaQty"
+                       type="number"
+                       class="form-control quantity-input incoming-total"
+                       min="1"
+                       placeholder="Πλήθος">
+              </div>
+
+              <div class="col-8 text-end">
+                <button type="button"
+                        class="btn btn-success"
+                        onclick="addItem('allaSelect','allaQty','allaList')">
+                  Προσθήκη
+                </button>
+              </div>
+
+            </div>
+
+            <div id="allaList" class="mt-3"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ΚΕΝΤΡΙΚΗ ΣΤΗΛΗ -->
+      <div class="col-md-4">
+        <div class="panel">
+
+          <h3 class="text-center mb-3" style="background-color: bisque">ΣΥΝΟΛΑ ΠΑΡΑΒΑΣΕΩΝ - ΠΑΡΑΒΙΑΣΕΩΝ</h3>
+
+          <div class="form-group-custom mb-4" style="background-color: lightgreen">
+
+
+            <div class="violation-row">
+              <div class="violation-label">
+                ΠΑΡΑΒΑΣΕΙΣ ΚΕΚ
+              </div>
+
+              <div class="violation-fields">
+
+                <div class="violation-item">
+                  <label>ΜΑΧΗΤΙΚΑ Α/Φ</label>
+                  <input type="number"
+                         id="violFighter"
+                         class="form-control violation-input">
+                </div>
+
+                <div class="violation-item">
+                  <label>ΑΦΝΣ</label>
+                  <input type="number"
+                         id="violAfns"
+                         class="form-control violation-input">
+                </div>
+
+                <div class="violation-item">
+                  <label>Ε/Π</label>
+                  <input type="number"
+                         id="violEp"
+                         class="form-control violation-input">
+                </div>
+
+                <div class="violation-item">
+                  <label>ΜΕΑ</label>
+                  <input type="number"
+                         id="violMea"
+                         class="form-control violation-input">
+                </div>
+
+                <div class="violation-item">
+                  <label>ΑΛΛΑ</label>
+                  <input type="number"
+                         id="violAlla"
+                         class="form-control violation-input">
+                </div>
+
+                <div class="violation-item total-field" style="margin-top:25px;">
+                  <label style="font-size: larger"><strong>ΣΥΝΟΛΟ</strong></label>
+                  <input type="text"
+                         id="violTotal"
+                         style="background-color: darkgray"
+                         class="form-control"
+                         readonly
+                         value="0">
+                </div>
+
+                <!--                                with bootstarps-->
+                <!--                                <div class="violation-item total-field mt-4">-->
+                <!--                                    <label style="font-size: larger"><strong>ΣΥΝΟΛΟ</strong></label>-->
+                <!--                                    <input type="text"-->
+                <!--                                           id="violTotal"-->
+                <!--                                           class="form-control"-->
+                <!--                                           readonly-->
+                <!--                                           value="0">-->
+                <!--                                </div>-->
+
+              </div>
+
+            </div>
+
+            <div class="form-group-custom mb-4" style="background-color: lightgreen">
+
+              <div class="violation-item highlight-orange" style="display:flex; align-items:center; gap:15px;">
+
+                <label style="min-width:180px;">
+                  ΠΑΡΑΒΑΣΕΙΣ ΤΜΑ
+                </label>
+
+                <input type="number"
+                       id="paraviaseis_TMA"
+                       class="form-control violation-input"
+                       style="margin-left: 150px;">
+
+              </div>
+
+            </div>
+
+            <div class="form-group-custom mb-4" style="background-color: lightgreen">
+
+
+              <div class="violation-row">
+                <div class="violation-label">
+                  ΠΑΡΑΒΑΣΕΙΣ ΕΕΧ
+                </div>
+
+                <div class="violation-fields">
+
+                  <div class="violation-item">
+                    <label>ΜΑΧΗΤΙΚΑ Α/Φ</label>
+                    <input type="number"
+                           id="violFighter_EEX"
+                           class="form-control violation-input">
+                  </div>
+
+                  <div class="violation-item">
+                    <label>ΑΦΝΣ</label>
+                    <input type="number"
+                           id="violAfns_EEX"
+                           class="form-control violation-input">
+                  </div>
+
+                  <div class="violation-item">
+                    <label>Ε/Π</label>
+                    <input type="number"
+                           id="violEp_EEX"
+                           class="form-control violation-input">
+                  </div>
+
+                  <div class="violation-item">
+                    <label>ΜΕΑ</label>
+                    <input type="number"
+                           id="violMea_EEX"
+                           class="form-control violation-input">
+                  </div>
+
+                  <div class="violation-item">
+                    <label>ΑΛΛΑ</label>
+                    <input type="number"
+                           id="violAlla_EEX"
+                           class="form-control violation-input">
+                  </div>
+
+                  <div class="violation-item total-field" style="margin-top:25px;">
+                    <label style="font-size: larger"><strong>ΣΥΝΟΛΟ</strong></label>
+                    <input type="text"
+                           id="violTotal_EEX"
+                           class="form-control"
+                           style="background-color: darkgray"
+                           readonly
+                           value="0">
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="section-divider"></div>
+
+              <div class="form-group-custom mb-4">
+
+                <div class="violation-row" style="background-color: lightgreen">
+
+                  <div class="violation-fields">
+
+                    <div class="violation-item">
+                      <label>ΕΩΣ 6 ΝΜ</label>
+                      <input type="number"
+                             id="minus6NM"
+                             style="margin-left: 190px;"
+                             class="form-control violation-input">
+                    </div>
+
+                    <div class="violation-item">
+                      <label>ΑΝΩ ΤΩΝ 6 ΝΜ</label>
+                      <input type="number"
+                             id="greater6NM"
+                             style="margin-left: 190px;"
+                             class="form-control violation-input">
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-divider"></div>
+
+              <div class="form-group-custom mb-4" style="background-color: red">
+
+
+                <div class="violation-row" style="background-color: red">
+
+                  <div class="violation-fields">
+
+                    <div class="violation-item">
+                      <label>ΥΠΕΡΠΤΗΣΕΙΣ ΑΝΩ ΗΠΕΙΡΩΤΙΚΟΥ ΕΔΑΦΟΥΣ-ΝΗΣΩΝ</label>
+                      <input type="number"
+                             id="flightsGrndIsl"
+                             style="margin-left: 190px;"
+                             class="form-control violation-input">
+                    </div>
+
+                    <div class="violation-item">
+                      <label>ΥΠΕΡΠΤΗΣΕΙΣ ΑΝΩ Μ/Ν-Β/Ν</label>
+                      <input type="number"
+                             id="flights_MN_BN"
+                             style="margin-left: 190px;"
+                             class="form-control violation-input">
+                    </div>
+
+                    <div class="violation-item total-field" style="background-color: aquamarine">
+                      <label style="font-size: larger">
+                        <strong>ΣΥΝΟΛΟ ΥΠΕΡΠΤΗΣΕΩΝ</strong>
+                      </label>
+                      <input type="text"
+                             id="flightsTotal"
+                             class="form-control"
+                             style="margin-left: 190px; font-weight: bold; background-color: darkgray"
+                             readonly
+                             value="0">
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <div class="section-divider"></div>
+
+          <div class="form-group-custom" style="background-color: sandybrown">
+
+            <label style="font-size: larger">ΠΕΡΙΟΧΗ ΕΙΣΟΔΟΥ</label>
+            <br>
+
+            <select id="entryAreaSelect" class="form-select">
+              <option value="">-- ΤΥΠΟΣ --</option>
+
+              <th:block th:each="area : ${entryAreas}">
+                <option th:value="${area.id}"
+                        th:text="${area.name}">
+                </option>
+              </th:block>
+            </select>
+
+            <div class="row mt-2">
+
+              <div class="col-4">
+                <input id="entryAreaQty"
+                       type="number"
+                       class="form-control quantity-input incoming-total"
+                       min="1"
+                       placeholder="Πλήθος">
+              </div>
+
+              <div class="col-8 text-end">
+                <button type="button"
+                        class="btn btn-success"
+                        onclick="addItem('entryAreaSelect',
+                                             'entryAreaQty',
+                                             'entryAreaList')">
+
+                  Προσθήκη
+
+                </button>
+              </div>
+
+            </div>
+
+            <div id="entryAreaList" class="mt-3"></div>
+          </div>
+
+          <div class="section-divider"></div>
+        </div>
+      </div>
+
+
+      <!-- ΔΕΞΙΑ ΣΤΗΛΗ -->
+      <div class="col-md-4">
+        <div class="panel">
+
+          <h3 class="text-center mb-3" style="background-color: bisque">ΑΝΑΓΝΩΡΙΣΕΙΣ ΑΠΟ ΕΛΛΗΝΙΚΑ Α/Φ</h3>
+
+
+          <div class="form-group-custom mb-4" style="background-color: cadetblue">
+            <div class="incoming-row" >
+
+              <label>ΣΥΝΟΛΟ ΑΝΑΓΝΩΡΙΣΕΩΝ ΑΠΟ ΜΑΧΗΤΙΚΑ</label>
+              <input type="number"
+                     class="form-control single-input"
+                     style="margin-left: 100px"
+                     min="1"
+                     placeholder="Πλήθος">
+            </div>
+          </div>
+
+          <div class="form-group-custom mb-4" style="background-color: cadetblue">
+            <div class="incoming-row" >
+
+              <label>ΣΧΗΜΑΤΙΣΜΟΙ-ΙΧΝΗ Α/Φ ΑΝΑΓΝΩΡΙΣΗΣ</label>
+              <input type="number"
+                     class="form-control single-input"
+                     style="margin-left: 100px"
+                     min="1"
+                     placeholder="Πλήθος">
+            </div>
+          </div>
+
+
+          <div class="form-group-custom mb-4" style="background-color: cadetblue">
+
+            <div class="alert alert-info text-right mb-3">
+              <strong style="font-size: larger">ΣΥΝΟΛΟ Α/Φ ΑΝΑΓΝΩΡΙΣΗΣ:
+                <span id="recognizedByFriendlyTotal">0</span></strong>
+            </div>
+
+            <select id="friendlySelect" class="form-select">
+              <option value="">-- ΤΥΠΟΣ --</option>
+
+              <th:block th:each="f : ${friendlyAircraftList}">
+                <option th:value="${f.id}"
+                        th:text="${f.typeName}">
+                </option>
+              </th:block>
+            </select>
+
+            <div class="row mt-2">
+
+              <div class="col-4">
+                <input id="friendlyQty"
+                       type="number"
+                       class="form-control quantity-input incoming-total"
+                       min="1"
+                       placeholder="Πλήθος">
+              </div>
+
+              <div class="col-8 text-end">
+                <button type="button"
+                        class="btn btn-success"
+                        onclick="addItemFriendlyRecognized('friendlySelect',
+                                             'friendlyQty',
+                                             'friendlyList')">
+
+                  Προσθήκη
+
+                </button>
+
+              </div>
+
+            </div>
+
+            <div id="friendlyList" class="mt-3"></div>
+
+          </div>
+
+          <div class="section-divider"></div>
+
+          <div class="form-group-custom mb-4" style="background-color: red">
+
+
+            <div class="violation-row" style="background-color: red">
+
+              <div class="violation-fields">
+
+                <div class="violation-item">
+                  <label>ΜΗ ΑΝΑΓΝΩΡΙΣΜΕΝΑ ΜΑΧΗΤΙΚΑ</label>
+                  <input type="number"
+                         id="unrecognizedAircrafts"
+                         style="margin-left: 190px;"
+                         class="form-control violation-input">
+                </div>
+                <hr class="separator-line">
+
+                <div class="violation-item">
+                  <label>ΜΗ ΑΝΑΓΝΩΡΙΣΜΕΝΑ ΑΛΛΑ Α/Φ-Ε/Π-ΜΕΑ </label>
+                  <input type="number"
+                         id="unrecognized_fighters"
+                         style="margin-left: 190px;"
+                         class="form-control violation-input">
+                </div>
+
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="section-divider"></div>
+          <div class="form-group-custom mb-4" style="background-color: khaki">
+
+
+            <div class="violation-row">
+
+              <div class="violation-fields">
+
+                <div class="violation-item">
+                  <label>ΑΠΟΚΑΛΥΨΗ ΕΝΤΟΣ ATHINAI FIR</label>
+                  <input type="number"
+                         id="athinaiFir"
+                         style="margin-left: 190px;"
+                         class="form-control violation-input">
+                </div>
+
+                <div class="violation-item">
+                  <label>ΠΕΡΙΟΧΗ ΑΠΟΚΑΛΥΨΗΣ</label>
+                  <input type="text"
+                         id="revelationArea"
+                         style="margin-left: 190px;"
+                         oninput="validate_text(this,'errorDescription')"
+                         class="form-control violation-input">
+                  <span id="errorDescription" style="color:red;"></span>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="row mt-4">
+
+      <div class="col text-center">
+
+        <button type="submit"
+                class="btn btn-primary btn-lg">
+          Αποθήκευση Incident
+        </button>
+
+        <button
+                type="submit"
+                class="btn btn-success btn-lg ms-3"
+                formaction="/incident/exportExcel">
+          Export Excel
+        </button>
+
+      </div>
+
+    </div>
+
+  </form>
+  <!-- FORM END -->
+
+</div>
+
+<script>
+
+
+
+  let fighterCounter = 0;
+  let incomingAircraftItems = [];
+
+
+
+  function addFighter() {
+
+    const select = document.getElementById("fighterSelect");
+    const qty = document.getElementById("fighterQty");
+    const armed = document.getElementById("fighterArmed");
+
+    if (select.value === "") {
+      alert("Επιλέξτε τύπο αεροσκάφους");
+      return;
+    }
+
+    if (qty.value === "") {
+      alert("Συμπληρώστε πλήθος");
+      return;
+    }
+
+    const item = {
+      id: Date.now(),
+      type: select.options[select.selectedIndex].text,
+      qty: Number(qty.value),
+      armed: armed.checked
+    };
+
+    incomingAircraftItems.push(item);
+
+    const list = document.getElementById("fighterList");
+
+    const row = document.createElement("div");
+    row.className = "row border rounded p-2 mb-2 align-items-center";
+
+    row.innerHTML = `
+        <div class="col-4">${item.type}</div>
+        <div class="col-3">${item.qty}</div>
+        <div class="col-3">${item.armed ? 'Οπλισμένο' : 'Άοπλο'}</div>
+        <div class="col-2 text-end">
+            <button type="button"
+                    class="btn btn-danger btn-sm"
+                    onclick="removeItem(${item.id}, this)">
+                X
+            </button>
+        </div>
+    `;
+
+    list.appendChild(row);
+
+    updateIncomingTotal();
+
+    select.selectedIndex = 0;
+    qty.value = "";
+    armed.checked = false;
+  }
+
+
+
+  function addItem(selectId, qtyId, listId) {
+
+    const select = document.getElementById(selectId);
+    const qty = document.getElementById(qtyId);
+    const list = document.getElementById(listId);
+
+    // if (select.value === "" || qty.value === "") return;
+    if (select.value === "") {
+      alert("Επιλέξτε τύπο αεροσκάφους");
+      return;
+    }
+
+    if (qty.value === "") {
+      alert("Συμπληρώστε πλήθος");
+      return;
+    }
+
+    const item = {
+      id: Date.now(),   // unique id
+      type: select.options[select.selectedIndex].text,
+      qty: Number(qty.value)
+    };
+
+    incomingAircraftItems.push(item);
+
+    const row = document.createElement("div");
+    row.className = "row border rounded p-2 mb-2 align-items-center";
+
+    row.innerHTML = `
+        <div class="col-8">${item.type}</div>
+        <div class="col-2">${item.qty}</div>
+        <div class="col-2 text-end">
+            <button type="button"
+                    class="btn btn-danger btn-sm"
+                    onclick="removeItem(${item.id}, this)">
+                X
+            </button>
+        </div>
+    `;
+
+    list.appendChild(row);
+
+    select.selectedIndex = 0;
+    qty.value = "";
+
+    updateIncomingTotal();
+  }
+
+  function addItemFriendlyRecognized(selectId, qtyId, listId) {
+
+    const select = document.getElementById(selectId);
+    const qty = document.getElementById(qtyId);
+    const list = document.getElementById(listId);
+
+    // if (select.value === "" || qty.value === "") return;
+    if (select.value === "") {
+      alert("Επιλέξτε τύπο αεροσκάφους");
+      return;
+    }
+
+    if (qty.value === "") {
+      alert("Συμπληρώστε πλήθος");
+      return;
+    }
+
+    const item = {
+      id: Date.now(),   // unique id
+      type: select.options[select.selectedIndex].text,
+      qty: Number(qty.value)
+    };
+
+    incomingAircraftItems.push(item);
+
+    const row = document.createElement("div");
+    row.className = "row border rounded p-2 mb-2 align-items-center";
+
+    row.innerHTML = `
+        <div class="col-8">${item.type}</div>
+        <div class="col-2">${item.qty}</div>
+        <div class="col-2 text-end">
+            <button type="button"
+                    class="btn btn-danger btn-sm"
+                    onclick="removeItem(${item.id}, this)">
+                X
+            </button>
+        </div>
+    `;
+
+    list.appendChild(row);
+
+    select.selectedIndex = 0;
+    qty.value = "";
+
+    updateFriendlyRec();
+  }
+
+  function updateFriendlyRec() {
+
+    let total = incomingAircraftItems.reduce((sum, item) => {
+      return sum + (item.qty || 0);
+    }, 0);
+
+    document.getElementById("recognizedByFriendlyTotal").innerText = total;
+  }
+
+
+  function removeItem(id, btn) {
+
+    incomingAircraftItems =
+            incomingAircraftItems.filter(x => x.id !== id);
+
+    btn.closest('.row').remove();
+
+    updateIncomingTotal();
+  }
+
+  function updateIncomingTotal() {
+
+    let total = incomingAircraftItems.reduce((sum, item) => {
+      return sum + (item.qty || 0);
+    }, 0);
+
+    document.getElementById("incomingAircraftTotal").innerText = total;
+  }
+
+
+  function calculateViolationTotal() {
+
+    const fighter =
+            Number(document.getElementById("violFighter").value) || 0;
+
+    const afns =
+            Number(document.getElementById("violAfns").value) || 0;
+
+    const ep =
+            Number(document.getElementById("violEp").value) || 0;
+
+    const mea =
+            Number(document.getElementById("violMea").value) || 0;
+
+    const alla =
+            Number(document.getElementById("violAlla").value) || 0;
+
+    document.getElementById("violTotal").value =
+            fighter + afns + ep + mea + alla;
+  }
+
+  document
+          .querySelectorAll(".violation-input")
+          .forEach(input => {
+            input.addEventListener("input",
+                    calculateViolationTotal);
+          });
+
+  function calculateViolationTotal_EEX() {
+
+    const fighter =
+            Number(document.getElementById("violFighter_EEX").value) || 0;
+
+    const afns =
+            Number(document.getElementById("violAfns_EEX").value) || 0;
+
+    const ep =
+            Number(document.getElementById("violEp_EEX").value) || 0;
+
+    const mea =
+            Number(document.getElementById("violMea_EEX").value) || 0;
+
+    const alla =
+            Number(document.getElementById("violAlla_EEX").value) || 0;
+
+    document.getElementById("violTotal_EEX").value =
+            fighter + afns + ep + mea + alla;
+  }
+
+  document
+          .querySelectorAll(".violation-input")
+          .forEach(input => {
+            input.addEventListener("input",
+                    calculateViolationTotal_EEX);
+          });
+
+  function calculateViolationTotal_Flights() {
+
+    const flightGrndIsl =
+            Number(document.getElementById("flightsGrndIsl").value) || 0;
+
+    const flight_MN_BN =
+            Number(document.getElementById("flights_MN_BN").value) || 0;
+
+
+
+    document.getElementById("flightsTotal").value =
+            flightGrndIsl + flight_MN_BN;
+  }
+
+  document
+          .querySelectorAll(".violation-input")
+          .forEach(input => {
+            input.addEventListener("input",
+                    calculateViolationTotal_Flights);
+          });
+
+  function validate_text(input, errorSpanId) {
+
+    const regex = /^[A-Za-zΑ-Ωα-ωΆΈΉΊΌΎΏάέήί\s]+$/;
+    const errorSpan = document.getElementById(errorSpanId);
+
+    if (!regex.test(input.value)) {
+      errorSpan.textContent =
+              "Επιτρέπονται μόνο γράμματα.";
+    } else {
+      errorSpan.textContent = "";
+    }
+  }
+
+
+
+</script>
+
+</body>
+</html>

@@ -9,6 +9,7 @@
     <style>
         body {
             background-color: #f4f6f9;
+
         }
 
         .panel {
@@ -178,6 +179,7 @@
                             <label>ΣΧΗΜΑΤΙΣΜΟΙ</label>
                             <input type="number"
                                    class="form-control single-input"
+                                   name="sxhmatismoi"
                                    min="1"
                                    placeholder="Πλήθος">
                         </div>
@@ -187,6 +189,7 @@
                             <label>Α/Φ</label>
                             <input type="number"
                                    class="form-control single-input"
+                                   name="aircraft"
                                    min="1"
                                    placeholder="Πλήθος">
                         </div>
@@ -200,11 +203,13 @@
 
                                 <input type="number"
                                        class="form-control"
+                                       name="OplaSxhmatismoi"
                                        min="1"
                                        placeholder="ΣΧΗΜ"> /
 
                                 <input type="number"
                                        class="form-control"
+                                       name="OplaAircrafts"
                                        min="1"
                                        placeholder="ΑΦΗ">
 
@@ -217,6 +222,7 @@
                             <label>ΕΜΠΛΟΚΕΣ</label>
                             <input type="number"
                                    class="form-control"
+                                   name="engagements"
                                    min="1"
                                    placeholder="Πλήθος">
                         </div>
@@ -226,6 +232,7 @@
                             <label>ΔΥΤΙΚΑ ΤΟΥ 25</label>
                             <input type="number"
                                    class="form-control"
+                                   name="westTo25"
                                    min="1"
                                    placeholder="Πλήθος">
                         </div>
@@ -884,11 +891,23 @@
 
         <!-- SUBMIT -->
         <div class="row mt-4">
-            <div class="col-12 text-center">
-                <button type="submit" class="btn btn-primary btn-lg">
+
+            <div class="col text-center">
+
+                <button type="submit"
+                        class="btn btn-primary btn-lg">
                     Αποθήκευση Incident
                 </button>
+
+                <button
+                        type="submit"
+                        class="btn btn-success btn-lg ms-3"
+                        formaction="/incident/exportExcel">
+                    Export Excel
+                </button>
+
             </div>
+
         </div>
 
     </form>

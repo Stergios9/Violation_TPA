@@ -60,7 +60,7 @@ public class DataInitializer implements CommandLineRunner {
             User user = new User();
 
             user.setUsername("superadmin");
-            user.setPassword(passwordEncoder.encode("superadmin"));
+            user.setPassword(passwordEncoder.encode("superadmin12345"));
             user.setLastname("Toulioudas");
             user.setRole(superAdminRole);
 
@@ -76,7 +76,7 @@ public class DataInitializer implements CommandLineRunner {
             User user = new User();
 
             user.setUsername("admin");
-            user.setPassword(passwordEncoder.encode("admin"));
+            user.setPassword(passwordEncoder.encode("admin12345"));
             user.setLastname("SingleAdmin");
             user.setRole(adminRole);
 
@@ -92,7 +92,7 @@ public class DataInitializer implements CommandLineRunner {
             User user = new User();
 
             user.setUsername("user");
-            user.setPassword(passwordEncoder.encode("user"));
+            user.setPassword(passwordEncoder.encode("user12345"));
             user.setLastname("SingleUser");
             user.setRole(userRole);
 
