@@ -20,6 +20,7 @@ public class DataInitializer implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CountryAFNSRepository countryAFNSRepository;
 
     public DataInitializer(
             CountryRepository countryRepository,
@@ -27,8 +28,8 @@ public class DataInitializer implements CommandLineRunner {
             CountryFighterRepository countryFighterRepository, OtherRepository otherRepository,
             RoleRepository roleRepository,
             UserRepository userRepository,
-            PasswordEncoder passwordEncoder
-    ) {
+            PasswordEncoder passwordEncoder,
+            CountryAFNSRepository countryAFNSRepository) {
         this.countryRepository = countryRepository;
         this.fighterRepository = fighterRepository;
         this.afnsRepository = afnsRepository;
@@ -38,6 +39,7 @@ public class DataInitializer implements CommandLineRunner {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.countryAFNSRepository = countryAFNSRepository;
     }
 
     @Override
@@ -48,7 +50,10 @@ public class DataInitializer implements CommandLineRunner {
         initAfns();
         initMea();
         initOther();
-        initCountryAircrafts();
+        initCountryFighters();
+        initCountryAfns();
+//        initCountryMea();
+//        initCountryOther();
         initUsers();
 
         System.out.println("DataInitializer executed successfully");
@@ -96,7 +101,7 @@ public class DataInitializer implements CommandLineRunner {
                 new Fighter(null, "SU-35"),
                 new Fighter(null, "SU-57"),
                 new Fighter(null, "MIG-29"),
-                new Fighter(null, "SU-31")
+                new Fighter(null, "MIG-31")
         ));
         }
 
@@ -123,17 +128,10 @@ public class DataInitializer implements CommandLineRunner {
         if(meaRepository.count() > 0) return;
 
         meaRepository.saveAll(List.of(
-                new MEA(null, "A400"),
-                new MEA(null, "C-5"),
-                new MEA(null, "C-17"),
-                new MEA(null, "C-130"),
-                new MEA(null, "C-160"),
-                new MEA(null, "C-390"),
-                new MEA(null, "C-5"),
-                new MEA(null, "P-72"),
-                new MEA(null, "P-235"),
-                new MEA(null, "P-8"),
-                new MEA(null, "IL...")
+                new MEA(null, "ANKA"),
+                new MEA(null, "BAYRAKTAR"),
+                new MEA(null, "HERON"),
+                new MEA(null, "MQ-9")
         ));
     }
     // =========================
@@ -144,19 +142,39 @@ public class DataInitializer implements CommandLineRunner {
         if(otherRepository.count() > 0) return;
 
         otherRepository.saveAll(List.of(
-                new Other(null, "P-3"),
-                new Other(null, "P-8"),
-                new Other(null, "P-72"),
-                new Other(null, "P-235"),
-                new Other(null, "P-8"),
-                new Other(null, "IL...")
+                new Other(null, "A400"),
+                new Other(null, "C-5"),
+                new Other(null, "C-17"),
+                new Other(null, "C-130"),
+                new Other(null, "C-160"),
+                new Other(null, "CN-235"),
+                new Other(null, "T-38"),
+                new Other(null, "T-45"),
+                new Other(null, "M-349"),
+                new Other(null, "KC-135"),
+                new Other(null, "KC-45"),
+                new Other(null, "KC-230 (MRTT)"),
+                new Other(null, "E-550"),
+                new Other(null, "E-7"),
+                new Other(null, "EP-235"),
+                new Other(null, "G550"),
+                new Other(null, "AN-12"),
+                new Other(null, "AN-26"),
+                new Other(null, "AN-124"),
+                new Other(null, "BE-200"),
+                new Other(null, "Beriev A-50"),
+                new Other(null, "IL-22PP"),
+                new Other(null, "IL-38"),
+                new Other(null, "IL-76"),
+                new Other(null, "IL-78"),
+                new Other(null, "IL-96")
         ));
     }
 
     // =========================
     // COUNTRY ↔ FIGHTER MAPPING
     // =========================
-    private void initCountryAircrafts() {
+    private void initCountryFighters() {
 
         if (countryFighterRepository.count() > 0) return;
 
@@ -175,6 +193,30 @@ public class DataInitializer implements CommandLineRunner {
                 .toList();
 
         countryFighterRepository.saveAll(mappings);
+    }
+
+    // =========================
+    // COUNTRY ↔ FIGHTER MAPPING
+    // =========================
+    private void initCountryAfns() {
+
+        if (countryAFNSRepository.count() > 0) return;
+
+        Country turkey = countryRepository.findByName("TURKEY")
+                .orElseThrow();
+
+        List<AFNS> afns = afnsRepository.findAll();
+
+        List<CountryAFNS> mappings = afns.stream()
+                .map(f -> {
+                    CountryAFNS countryAfns = new CountryAFNS();
+                    countryAfns.setCountry(turkey);
+                    countryAfns.setAfns(f);
+                    return countryAfns;
+                })
+                .toList();
+
+        countryAFNSRepository.saveAll(mappings);
     }
 
     // =========================
