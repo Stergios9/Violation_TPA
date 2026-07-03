@@ -295,9 +295,7 @@
                                 <button
                                         type="button"
                                         class="btn btn-success"
-                                        id="addFighterBtn">
-                                    <!--                        onclick="addFighter()"-->
-
+                                        onclick="addFighter()">
 
                                     Προσθήκη
 
@@ -338,10 +336,8 @@
 
                             <div class="col-8 text-end">
                                 <button type="button"
-                                        class="btn btn-success add-item-btn"
-                                        data-select="afnsSelect"
-                                        data-qty="afnsQty"
-                                        data-list="afnsList">
+                                        class="btn btn-success"
+                                        onclick="addItem('afnsSelect','afnsQty','afnsList')">
                                     Προσθήκη
                                 </button>
                             </div>
@@ -379,19 +375,11 @@
                             </div>
 
                             <div class="col-8 text-end">
-                                <!--                <button type="button"-->
-                                <!--                        class="btn btn-success"-->
-                                <!--                        onclick="addItem('epSelect','epQty','epList')">-->
-                                <!--                  Προσθήκη-->
-                                <!--                </button>-->
                                 <button type="button"
-                                        class="btn btn-success add-item-btn"
-                                        data-select="epSelect"
-                                        data-qty="epQty"
-                                        data-list="epList">
+                                        class="btn btn-success"
+                                        onclick="addItem('epSelect','epQty','epList')">
                                     Προσθήκη
                                 </button>
-
                             </div>
 
                         </div>
@@ -426,10 +414,8 @@
 
                             <div class="col-8 text-end">
                                 <button type="button"
-                                        class="btn btn-success add-item-btn"
-                                        data-select="meaSelect"
-                                        data-qty="meaQty"
-                                        data-list="meaList">
+                                        class="btn btn-success"
+                                        onclick="addItem('meaSelect','meaQty','meaList')">
                                     Προσθήκη
                                 </button>
                             </div>
@@ -466,10 +452,8 @@
 
                             <div class="col-8 text-end">
                                 <button type="button"
-                                        class="btn btn-success add-item-btn"
-                                        data-select="allaSelect"
-                                        data-qty="allaQty"
-                                        data-list="allaList">
+                                        class="btn btn-success"
+                                        onclick="addItem('allaSelect','allaQty','allaList')">
                                     Προσθήκη
                                 </button>
                             </div>
@@ -736,13 +720,14 @@
                             </div>
 
                             <div class="col-8 text-end">
-
                                 <button type="button"
-                                        class="btn btn-success add-item-btn"
-                                        data-select="entryAreaSelect"
-                                        data-qty="entryAreaQty"
-                                        data-list="entryAreaList">
+                                        class="btn btn-success"
+                                        onclick="addItem('entryAreaSelect',
+                                             'entryAreaQty',
+                                             'entryAreaList')">
+
                                     Προσθήκη
+
                                 </button>
                             </div>
 
@@ -817,11 +802,13 @@
 
                             <div class="col-8 text-end">
                                 <button type="button"
-                                        class="btn btn-success add-item-btn"
-                                        data-select="friendlySelect"
-                                        data-qty="friendlyQty"
-                                        data-list="friendlyList">
+                                        class="btn btn-success"
+                                        onclick="addItemFriendlyRecognized('friendlySelect',
+                                             'friendlyQty',
+                                             'friendlyList')">
+
                                     Προσθήκη
+
                                 </button>
 
                             </div>
@@ -937,11 +924,6 @@
 
 
 
-
-    document
-        .getElementById("addFighterBtn")
-        .addEventListener("click", addFighter);
-
     function addFighter() {
 
         const select = document.getElementById("fighterSelect");
@@ -957,6 +939,7 @@
             alert("Συμπληρώστε πλήθος");
             return;
         }
+
         const item = {
             id: Date.now(),
             type: select.options[select.selectedIndex].text,
@@ -994,21 +977,6 @@
     }
 
 
-
-    // ********* Add Item Button ***********
-    document.querySelectorAll(".add-item-btn").forEach(button => {
-
-        button.addEventListener("click", function () {
-
-            addItem(
-                this.dataset.select,
-                this.dataset.qty,
-                this.dataset.list
-            );
-
-        });
-
-    });
 
     function addItem(selectId, qtyId, listId) {
 
@@ -1134,7 +1102,6 @@
 
         document.getElementById("incomingAircraftTotal").innerText = total;
     }
-
 
 
     function calculateViolationTotal() {

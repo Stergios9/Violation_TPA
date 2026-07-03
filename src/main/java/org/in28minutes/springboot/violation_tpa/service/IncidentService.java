@@ -1,14 +1,9 @@
 package org.in28minutes.springboot.violation_tpa.service;
 
-import org.in28minutes.springboot.violation_tpa.dto.IncidentFormDTO;
-import org.in28minutes.springboot.violation_tpa.dto.IncomingAircraftDTO;
 import org.in28minutes.springboot.violation_tpa.entity.*;
-import org.in28minutes.springboot.violation_tpa.repository.AircraftTypeRepository;
 import org.in28minutes.springboot.violation_tpa.repository.EntryAreaRepository;
-import org.in28minutes.springboot.violation_tpa.repository.FriendlyAircraftRepository;
 import org.in28minutes.springboot.violation_tpa.repository.IncidentRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,17 +13,12 @@ public class IncidentService {
 
     private final IncidentRepository incidentRepository;
     private final EntryAreaRepository entryAreaRepository;
-    private final FriendlyAircraftRepository friendlyAircraftRepository;
-    private final AircraftTypeRepository aircraftTypeRepository;
 
     public IncidentService(IncidentRepository incidentRepository,
-                           EntryAreaRepository entryAreaRepository,
-                           FriendlyAircraftRepository friendlyAircraftRepository,
-                           AircraftTypeRepository aircraftTypeRepository) {
+                           EntryAreaRepository entryAreaRepository) {
         this.incidentRepository = incidentRepository;
         this.entryAreaRepository = entryAreaRepository;
-        this.friendlyAircraftRepository = friendlyAircraftRepository;
-        this.aircraftTypeRepository = aircraftTypeRepository;
+
     }
 
 //    @Transactional

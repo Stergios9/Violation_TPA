@@ -2,8 +2,8 @@ package org.in28minutes.springboot.violation_tpa.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.in28minutes.springboot.violation_tpa.dto.IncidentFormDTO;
-import org.in28minutes.springboot.violation_tpa.entity.AircraftType;
 import org.in28minutes.springboot.violation_tpa.entity.User;
 import org.in28minutes.springboot.violation_tpa.service.*;
 import org.in28minutes.springboot.violation_tpa.service.ExcelService;
@@ -17,9 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -39,16 +36,10 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private final AircraftTypeService aircraftTypeService;
     private final EntryAreaService entryAreaService;
-    private final FriendlyAircraftService friendlyAircraftService;
 
-    public UserController(AircraftTypeService aircraftTypeService,
-                           EntryAreaService entryAreaService,
-                           FriendlyAircraftService friendlyAircraftService) {
-        this.aircraftTypeService = aircraftTypeService;
+    public UserController(EntryAreaService entryAreaService) {
         this.entryAreaService = entryAreaService;
-        this.friendlyAircraftService = friendlyAircraftService;
     }
 
     @GetMapping("/")
@@ -66,20 +57,36 @@ public class UserController {
     }
 
     @GetMapping("/main-page")
-    public String userPage(Model model) {
-        loadCommonData(model);
+    public String mainPage(HttpSession session, Model model) {
+
+        String country = (String) session.getAttribute("selectedCountry");
+
+        if (country == null) {
+            return "redirect:/select-country";
+        }
+
+        model.addAttribute("country", country);
+
         return "main-page";
     }
 
     @GetMapping("/admin-main-page")
-    public String adminPage(Model model) {
-        loadCommonData(model);
+    public String adminMain(HttpSession session, Model model) {
+
+        String country = (String) session.getAttribute("selectedCountry");
+
+        model.addAttribute("country", country);
+
         return "admin-main-page";
     }
 
     @GetMapping("/super-main-page")
-    public String superPage(Model model) {
-        loadCommonData(model);
+    public String superPage(HttpSession session, Model model) {
+
+        String country = (String) session.getAttribute("selectedCountry");
+
+        model.addAttribute("country", country);
+
         return "super-main-page";
     }
 
@@ -90,22 +97,6 @@ public class UserController {
 
         excelService.exportIncidentToExcel(dto, response);
 
-    }
-
-
-
-    private void loadCommonData(Model model) {
-
-        List<AircraftType> allAircraft = aircraftTypeService.getAll();
-
-        Map<String, List<AircraftType>> aircraftGrouped =
-                allAircraft.stream()
-                        .collect(Collectors.groupingBy(AircraftType::getCategory));
-
-        model.addAttribute("aircraftGrouped", aircraftGrouped);
-        model.addAttribute("entryAreas", entryAreaService.getAll());
-        model.addAttribute("friendlyAircraftList", friendlyAircraftService.getAll());
-        model.addAttribute("incidentFormDTO", new IncidentFormDTO());
     }
 
     @PostMapping("/register")

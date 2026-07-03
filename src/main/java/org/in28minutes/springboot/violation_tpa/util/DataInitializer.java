@@ -1,11 +1,7 @@
 package org.in28minutes.springboot.violation_tpa.util;
 
 import org.in28minutes.springboot.violation_tpa.entity.*;
-import org.in28minutes.springboot.violation_tpa.repository.RoleRepository;
-import org.in28minutes.springboot.violation_tpa.repository.UserRepository;
-import org.in28minutes.springboot.violation_tpa.service.AircraftTypeService;
-import org.in28minutes.springboot.violation_tpa.service.EntryAreaService;
-import org.in28minutes.springboot.violation_tpa.service.FriendlyAircraftService;
+import org.in28minutes.springboot.violation_tpa.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -15,152 +11,208 @@ import java.util.List;
 @Component
 public class DataInitializer implements CommandLineRunner {
 
-    private final AircraftTypeService aircraftTypeService;
-    private final EntryAreaService entryAreaService;
-    private final FriendlyAircraftService friendlyAircraftService;
-    private final UserRepository userRepository;
+    private final CountryRepository countryRepository;
+    private final FighterRepository fighterRepository;
+    private final AfnsRepository afnsRepository;
+    private final MeaRepository meaRepository;
+    private final CountryFighterRepository countryFighterRepository;
+    private final OtherRepository otherRepository;
     private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
-    public DataInitializer(AircraftTypeService aircraftTypeService, EntryAreaService entryAreaService, FriendlyAircraftService friendlyAircraftService, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
-        this.aircraftTypeService = aircraftTypeService;
-        this.entryAreaService = entryAreaService;
-        this.friendlyAircraftService = friendlyAircraftService;
-        this.userRepository = userRepository;
+    public DataInitializer(
+            CountryRepository countryRepository,
+            FighterRepository fighterRepository, AfnsRepository afnsRepository, MeaRepository meaRepository,
+            CountryFighterRepository countryFighterRepository, OtherRepository otherRepository,
+            RoleRepository roleRepository,
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder
+    ) {
+        this.countryRepository = countryRepository;
+        this.fighterRepository = fighterRepository;
+        this.afnsRepository = afnsRepository;
+        this.meaRepository = meaRepository;
+        this.countryFighterRepository = countryFighterRepository;
+        this.otherRepository = otherRepository;
         this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(String... args) {
 
-        initAircraftTypes();
-        initEntryAreas();
-        initFriendlyAircraft();
-        // ==========================
-        // ROLES
-        // ==========================
+        initCountries();
+        initFighters();
+        initAfns();
+        initMea();
+        initOther();
+        initCountryAircrafts();
+        initUsers();
 
-        Role superAdminRole = roleRepository.findByName("SUPER_ADMIN")
-                .orElseGet(() -> roleRepository.save(new Role(null, "SUPER_ADMIN")));
+        System.out.println("DataInitializer executed successfully");
+    }
 
-        Role adminRole = roleRepository.findByName("ADMIN")
+    // =========================
+    // COUNTRIES
+    // =========================
+    private void initCountries() {
+
+        if (countryRepository.count() > 0) return;
+
+        countryRepository.saveAll(List.of(
+                new Country(null, "TURKEY"),
+                new Country(null, "GREECE"),
+                new Country(null, "BULGARIA")
+        ));
+    }
+
+    // =========================
+    // FIGHTERS (catalog)
+    // =========================
+    private void initFighters() {
+
+        if (fighterRepository.count() > 0) return;
+
+        fighterRepository.saveAll(List.of(
+                new Fighter(null, "A-10"),
+                new Fighter(null, "F-4"),
+                new Fighter(null, "F-5"),
+                new Fighter(null, "F-15"),
+                new Fighter(null, "F-16"),
+                new Fighter(null, "F-18"),
+                new Fighter(null, "F-22"),
+                new Fighter(null, "F-35"),
+                new Fighter(null, "M-2000"),
+                new Fighter(null, "RAFALE"),
+                new Fighter(null, "EFA TYFHOON"),
+                new Fighter(null, "TORNADO"),
+                new Fighter(null, "SU-24"),
+                new Fighter(null, "SU-25"),
+                new Fighter(null, "SU-27"),
+                new Fighter(null, "SU-30"),
+                new Fighter(null, "SU-34"),
+                new Fighter(null, "SU-35"),
+                new Fighter(null, "SU-57"),
+                new Fighter(null, "MIG-29"),
+                new Fighter(null, "SU-31")
+        ));
+        }
+
+    // =========================
+    // AFNS (catalog)
+    // =========================
+    private void initAfns(){
+        if(afnsRepository.count() > 0) return;
+
+        afnsRepository.saveAll(List.of(
+                new AFNS(null, "P-3"),
+                new AFNS(null, "P-8"),
+                new AFNS(null, "P-72"),
+                new AFNS(null, "P-235"),
+                new AFNS(null, "P-8"),
+                new AFNS(null, "IL...")
+        ));
+    }
+
+    // =========================
+    // ΜΕΑ (catalog)
+    // =========================
+    private void initMea(){
+        if(meaRepository.count() > 0) return;
+
+        meaRepository.saveAll(List.of(
+                new MEA(null, "A400"),
+                new MEA(null, "C-5"),
+                new MEA(null, "C-17"),
+                new MEA(null, "C-130"),
+                new MEA(null, "C-160"),
+                new MEA(null, "C-390"),
+                new MEA(null, "C-5"),
+                new MEA(null, "P-72"),
+                new MEA(null, "P-235"),
+                new MEA(null, "P-8"),
+                new MEA(null, "IL...")
+        ));
+    }
+    // =========================
+    // Other (catalog)
+    // =========================
+
+    private void initOther(){
+        if(otherRepository.count() > 0) return;
+
+        otherRepository.saveAll(List.of(
+                new Other(null, "P-3"),
+                new Other(null, "P-8"),
+                new Other(null, "P-72"),
+                new Other(null, "P-235"),
+                new Other(null, "P-8"),
+                new Other(null, "IL...")
+        ));
+    }
+
+    // =========================
+    // COUNTRY ↔ FIGHTER MAPPING
+    // =========================
+    private void initCountryAircrafts() {
+
+        if (countryFighterRepository.count() > 0) return;
+
+        Country turkey = countryRepository.findByName("TURKEY")
+                .orElseThrow();
+
+        List<Fighter> fighters = fighterRepository.findAll();
+
+        List<CountryFighter> mappings = fighters.stream()
+                .map(f -> {
+                    CountryFighter cf = new CountryFighter();
+                    cf.setCountry(turkey);
+                    cf.setFighter(f);
+                    return cf;
+                })
+                .toList();
+
+        countryFighterRepository.saveAll(mappings);
+    }
+
+    // =========================
+    // USERS + ROLES
+    // =========================
+    private void initUsers() {
+
+        Role admin = roleRepository.findByName("ADMIN")
                 .orElseGet(() -> roleRepository.save(new Role(null, "ADMIN")));
 
-        Role userRole = roleRepository.findByName("USER")
+        Role superAdmin = roleRepository.findByName("SUPER_ADMIN")
+                .orElseGet(() -> roleRepository.save(new Role(null, "SUPER_ADMIN")));
+
+        Role user = roleRepository.findByName("USER")
                 .orElseGet(() -> roleRepository.save(new Role(null, "USER")));
 
-        // ==========================
-        // SUPER ADMIN
-        // ==========================
+        if (userRepository.findByUsername("admin").isEmpty()) {
+            User u = new User();
+            u.setUsername("admin");
+            u.setPassword(passwordEncoder.encode("admin123"));
+            u.setRole(admin);
+            userRepository.save(u);
+        }
 
         if (userRepository.findByUsername("superadmin").isEmpty()) {
-
-            User user = new User();
-
-            user.setUsername("superadmin");
-            user.setPassword(passwordEncoder.encode("superadmin12345"));
-            user.setLastname("Toulioudas");
-            user.setRole(superAdminRole);
-
-            userRepository.save(user);
+            User u = new User();
+            u.setUsername("superadmin");
+            u.setPassword(passwordEncoder.encode("superadmin123"));
+            u.setRole(superAdmin);
+            userRepository.save(u);
         }
-
-        // ==========================
-        // ADMIN
-        // ==========================
-
-        if (userRepository.findByUsername("admin").isEmpty()) {
-
-            User user = new User();
-
-            user.setUsername("admin");
-            user.setPassword(passwordEncoder.encode("admin12345"));
-            user.setLastname("SingleAdmin");
-            user.setRole(adminRole);
-
-            userRepository.save(user);
-        }
-
-        // ==========================
-        // USER
-        // ==========================
 
         if (userRepository.findByUsername("user").isEmpty()) {
-
-            User user = new User();
-
-            user.setUsername("user");
-            user.setPassword(passwordEncoder.encode("user12345"));
-            user.setLastname("SingleUser");
-            user.setRole(userRole);
-
-            userRepository.save(user);
+            User u = new User();
+            u.setUsername("user");
+            u.setPassword(passwordEncoder.encode("user123"));
+            u.setRole(user);
+            userRepository.save(u);
         }
-
-        System.out.println("Default users initialized.");
-    }
-
-    // ---------------- AIRCRAFT TYPES ----------------
-    private void initAircraftTypes() {
-
-        if (!aircraftTypeService.getAll().isEmpty()) return;
-
-        List<AircraftType> list = List.of(
-
-                // ΜΑΧΗΤΙΚΑ
-                new AircraftType("ΜΑΧΗΤΙΚΑ", "F-16"),
-                new AircraftType("ΜΑΧΗΤΙΚΑ", "F-4"),
-                new AircraftType("ΜΑΧΗΤΙΚΑ", "F-35"),
-
-                // ΑΦΝΣ
-                new AircraftType("ΑΦΝΣ", "CN-235"),
-                new AircraftType("ΑΦΝΣ", "ATR-72"),
-
-                // Ε/Π
-                new AircraftType("Ε/Π", "AH-64 Apache"),
-                new AircraftType("Ε/Π", "UH-1"),
-
-                // ΜΕΑ
-                new AircraftType("ΜΕΑ", "Bayraktar TB2"),
-                new AircraftType("ΜΕΑ", "Akinci"),
-
-                // ΑΛΛΑ
-                new AircraftType("ΑΛΛΑ", "Unknown UAV")
-        );
-
-        list.forEach(aircraftTypeService::save);
-    }
-
-    // ---------------- ENTRY AREAS ----------------
-    private void initEntryAreas() {
-
-        if (!entryAreaService.getAll().isEmpty()) return;
-
-        List<EntryArea> areas = List.of(
-                new EntryArea("Λήμνος"),
-                new EntryArea("Ρόδος"),
-                new EntryArea("Σάμος"),
-                new EntryArea("Χίος"),
-                new EntryArea("Καστελόριζο")
-        );
-
-        areas.forEach(entryAreaService::save);
-    }
-
-    // ---------------- FRIENDLY AIRCRAFT ----------------
-    private void initFriendlyAircraft() {
-
-        if (!friendlyAircraftService.getAll().isEmpty()) return;
-
-        List<FriendlyAircraft> list = List.of(
-                new FriendlyAircraft("F-16 Block 52+"),
-                new FriendlyAircraft("F-16 Viper"),
-                new FriendlyAircraft("Mirage 2000-5"),
-                new FriendlyAircraft("Rafale")
-        );
-
-        list.forEach(friendlyAircraftService::save);
     }
 }

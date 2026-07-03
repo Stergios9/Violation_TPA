@@ -3,24 +3,21 @@ package org.in28minutes.springboot.violation_tpa.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "aircraft_type")
-public class AircraftType {
+@Table(name = "fighter")
+public class Fighter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "category", nullable = false)
-    private String category;
-
-    @Column(name = "type_name", nullable = false)
+    @Column(nullable = false)
     private String typeName;
 
-    public AircraftType() {
+    public Fighter() {
     }
 
-    public AircraftType(String category, String typeName) {
-        this.category = category;
+    public Fighter(Long id, String typeName) {
+        this.id = id;
         this.typeName = typeName;
     }
 
@@ -28,12 +25,8 @@ public class AircraftType {
         return id;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTypeName() {
@@ -43,4 +36,5 @@ public class AircraftType {
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
+
 }

@@ -20,28 +20,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             Authentication authentication
     ) throws IOException {
 
-        String redirectUrl = "/main-page";
-
-        boolean isSuperAdmin = hasRole(authentication, "ROLE_SUPER_ADMIN");
-        boolean isAdmin = hasRole(authentication, "ROLE_ADMIN");
-        boolean isUser = hasRole(authentication, "ROLE_USER");
-
-        if (isSuperAdmin) {
-            redirectUrl = "/super-main-page";
-        }
-        else if (isAdmin) {
-            redirectUrl = "/admin-main-page";
-        }
-        else if (isUser) {
-            redirectUrl = "/main-page";
-        }
-
-        response.sendRedirect(redirectUrl);
-    }
-
-    private boolean hasRole(Authentication auth, String role) {
-        return auth.getAuthorities()
-                .stream()
-                .anyMatch(a -> a.getAuthority().equals(role));
+        response.sendRedirect("/select-country");
     }
 }
+

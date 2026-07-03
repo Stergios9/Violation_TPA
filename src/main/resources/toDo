@@ -1,5 +1,5 @@
-1) Authentication user
-2) connect fields in main-page
-3) export in excel
+1) export in excel - export total data of an amount of dates with no zero columns
+2) export in excel - export total data of a particular date with no zero columns
+3)
 4) upload files
 5) Select date/dates and show statistics, export excel, show upload files only for 1 particular date

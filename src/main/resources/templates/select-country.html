@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/select-country}" method="post">
+
+    <label>Επιλέξτε Χώρα</label>
+
+    <select name="country" class="form-control" required>
+        <option value="">-- Επιλογή --</option>
+
+        <option th:each="c : ${countries}"
+                th:value="${c.name}"
+                th:text="${c.name}">
+        </option>
+    </select>
+
+    <button type="submit" class="btn btn-primary mt-3">
+        Συνέχεια
+    </button>
+
+</form>
+
+
+</body>
+</html>
