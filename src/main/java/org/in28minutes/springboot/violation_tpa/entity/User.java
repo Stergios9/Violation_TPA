@@ -26,7 +26,7 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    private String rank;
+    private String militaryRank;
     private String comments;
     private String lastname;
     private String firstname;
@@ -41,14 +41,14 @@ public class User {
     public User() {}
 
     public User(Long id, String username, String password, Role role,
-                String rank, String comments, String lastname,
+                String militaryRank, String comments, String lastname,
                 String firstname, String ip,
                 Date lastLogin, Date lastPasswordReset) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
-        this.rank = rank;
+        this.militaryRank = militaryRank;
         this.comments = comments;
         this.lastname = lastname;
         this.firstname = firstname;
@@ -92,11 +92,11 @@ public class User {
 //    }
 //
 //    public String getRank() {
-//        return rank;
+//        return militaryRank;
 //    }
 //
-//    public void setRank(String rank) {
-//        this.rank = rank;
+//    public void setRank(String militaryRank) {
+//        this.militaryRank = militaryRank;
 //    }
 //
 //    public String getComments() {
