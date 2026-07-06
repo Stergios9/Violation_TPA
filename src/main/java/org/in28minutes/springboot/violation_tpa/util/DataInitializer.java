@@ -25,9 +25,11 @@ public class DataInitializer implements CommandLineRunner {
     private final CountryOtherRepository countryOtherRepository;
 
 
+    private final EntryAreaRepository entryAreaRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final GreekFighterRepository greekFighterRepository;
 
     public DataInitializer(
             CountryRepository countryRepository,
@@ -36,7 +38,7 @@ public class DataInitializer implements CommandLineRunner {
             RoleRepository roleRepository,
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
-            CountryAFNSRepository countryAFNSRepository, CountryHelicopterRepository countryHelicopterRepository, CountryMEARepository countryMEARepository, CountryOtherRepository countryOtherRepository) {
+            CountryAFNSRepository countryAFNSRepository, CountryHelicopterRepository countryHelicopterRepository, CountryMEARepository countryMEARepository, CountryOtherRepository countryOtherRepository, EntryAreaRepository entryAreaRepository, GreekFighterRepository greekFighterRepository) {
         this.countryRepository = countryRepository;
         this.fighterRepository = fighterRepository;
         this.helicopterRepository = helicopterRepository;
@@ -51,6 +53,8 @@ public class DataInitializer implements CommandLineRunner {
         this.countryHelicopterRepository = countryHelicopterRepository;
         this.countryMEARepository = countryMEARepository;
         this.countryOtherRepository = countryOtherRepository;
+        this.entryAreaRepository = entryAreaRepository;
+        this.greekFighterRepository = greekFighterRepository;
     }
 
     @Override
@@ -67,6 +71,9 @@ public class DataInitializer implements CommandLineRunner {
         initCountryAfns();
         initCountryMea();
         initCountryOther();
+
+        initEntryArea();
+        initGreekFighters();
         initUsers();
 
         System.out.println("DataInitializer executed successfully");
@@ -471,6 +478,35 @@ public class DataInitializer implements CommandLineRunner {
                         otherRepository.findByTypeName("G550").orElseThrow()
                 )
 
+        ));
+    }
+    // =========================
+    // ΠΕΡΙΟΧΕΣ
+    // =========================
+
+    public void initEntryArea() {
+
+        if (entryAreaRepository.count() > 0) return;
+
+        entryAreaRepository.saveAll(List.of(
+                new EntryArea(null, "Πρέπει να μπουν πραγματικές περιοχές εδώ"),
+                new EntryArea(null, "Πρέπει να μπουν πραγματικές περιοχές εδώ"),
+                new EntryArea(null, "Αποκωδικοποίηση περιοχών από το αρχείο")
+        ));
+
+    }
+    // =========================
+    // ΕΛΛΗΝΙΚΑ ΜΑΧΗΤΙΚΑ
+    // =========================
+    public void initGreekFighters() {
+        if (greekFighterRepository.count() > 0) return;
+
+        greekFighterRepository.saveAll(List.of(
+                new GreekFighter(null, "F-4"),
+                new GreekFighter(null, "F-16"),
+                new GreekFighter(null, "M-2000-5"),
+                new GreekFighter(null, "RAFALE"),
+                new GreekFighter(null, "f-35")
         ));
     }
 

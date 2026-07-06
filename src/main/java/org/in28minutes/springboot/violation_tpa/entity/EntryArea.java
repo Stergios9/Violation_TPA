@@ -16,6 +16,11 @@ public class EntryArea {
     public EntryArea() {
     }
 
+    public EntryArea(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public EntryArea(String name) {
         this.name = name;
     }

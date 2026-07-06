@@ -194,11 +194,14 @@ private void fillInputFields(Model model, Country country) {
                     .map(CountryOther::getOther)
                     .toList();
 
+    List<EntryArea> entryAreas = entryAreaService.getAll();
+
     model.addAttribute("fighters", fighters);
     model.addAttribute("helicopters", helicopters);
     model.addAttribute("afns", afns);
     model.addAttribute("mea", mea);
     model.addAttribute("other", other);
+    model.addAttribute("entryAreas", entryAreas);
 }
 
 }
