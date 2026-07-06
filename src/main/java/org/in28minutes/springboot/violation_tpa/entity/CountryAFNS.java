@@ -17,6 +17,15 @@ public class CountryAFNS {
     @ManyToOne
     private AFNS afns;
 
+    public CountryAFNS(Country country, AFNS afns) {
+        this.country = country;
+        this.afns = afns;
+    }
+
+    public CountryAFNS() {
+
+    }
+
     public Long getId() {
         return id;
     }

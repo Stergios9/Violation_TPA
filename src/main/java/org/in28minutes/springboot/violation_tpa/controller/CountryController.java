@@ -1,6 +1,11 @@
 package org.in28minutes.springboot.violation_tpa.controller;
 
 import jakarta.servlet.http.HttpSession;
+import org.in28minutes.springboot.violation_tpa.entity.*;
+import org.in28minutes.springboot.violation_tpa.repository.CountryAFNSRepository;
+import org.in28minutes.springboot.violation_tpa.repository.CountryFighterRepository;
+import org.in28minutes.springboot.violation_tpa.repository.CountryMEARepository;
+import org.in28minutes.springboot.violation_tpa.repository.CountryOtherRepository;
 import org.in28minutes.springboot.violation_tpa.security.CountryService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,11 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
+import java.util.List;
 
 @Controller
 public class CountryController {
 
     private final CountryService countryService;
+
 
     public CountryController(CountryService countryService) {
         this.countryService = countryService;
@@ -55,4 +62,5 @@ public class CountryController {
 //                .stream()
 //                .anyMatch(a -> a.getAuthority().equals(role));
 //    }
+
 }

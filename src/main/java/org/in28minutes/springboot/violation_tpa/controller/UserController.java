@@ -4,7 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.in28minutes.springboot.violation_tpa.dto.IncidentFormDTO;
-import org.in28minutes.springboot.violation_tpa.entity.User;
+import org.in28minutes.springboot.violation_tpa.entity.*;
+import org.in28minutes.springboot.violation_tpa.repository.*;
 import org.in28minutes.springboot.violation_tpa.service.*;
 import org.in28minutes.springboot.violation_tpa.service.ExcelService;
 import org.in28minutes.springboot.violation_tpa.service.jwt.JwtService;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -35,7 +37,19 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    @Autowired
+    private CountryFighterRepository countryFighterRepository;
+    @Autowired
+    private CountryAFNSRepository countryAFNSRepository;
+    @Autowired
+    private CountryMEARepository countryMEARepository;
+    @Autowired
+    private CountryOtherRepository countryOtherRepository;
+    @Autowired
+    private CountryHelicopterRepository countryHelicopterRepository;
+    @Autowired
+    private CountryRepository countryRepository;
+    @Autowired
     private final EntryAreaService entryAreaService;
 
     public UserController(EntryAreaService entryAreaService) {
@@ -57,25 +71,33 @@ public class UserController {
     }
 
     @GetMapping("/main-page")
-    public String mainPage(HttpSession session, Model model) {
+    public String mainPage(
+            HttpSession session,
+            Model model) {
 
-        String country = (String) session.getAttribute("selectedCountry");
+        String countryName = (String) session.getAttribute("selectedCountry");
 
-        if (country == null) {
-            return "redirect:/select-country";
-        }
+        Country country = countryRepository
+                .findByName(countryName)
+                .orElseThrow();
 
-        model.addAttribute("country", country);
+        fillInputFields(model, country);
 
         return "main-page";
     }
 
     @GetMapping("/admin-main-page")
-    public String adminMain(HttpSession session, Model model) {
+    public String adminMainPage(
+            HttpSession session,
+            Model model) {
 
-        String country = (String) session.getAttribute("selectedCountry");
+        String countryName = (String) session.getAttribute("selectedCountry");
 
-        model.addAttribute("country", country);
+        Country country = countryRepository
+                .findByName(countryName)
+                .orElseThrow();
+
+        fillInputFields(model, country);
 
         return "admin-main-page";
     }
@@ -140,5 +162,43 @@ public class UserController {
 //
 //        return "main-page";
 //    }
+private void fillInputFields(Model model, Country country) {
+
+    List<Fighter> fighters =
+            countryFighterRepository.findByCountry(country)
+                    .stream()
+                    .map(CountryFighter::getFighter)
+                    .toList();
+
+    List<Helicopter> helicopters =
+            countryHelicopterRepository.findByCountry(country)
+                    .stream()
+                    .map(CountryHelicopter::getHelicopter)
+                    .toList();
+
+    List<AFNS> afns =
+            countryAFNSRepository.findByCountry(country)
+                    .stream()
+                    .map(CountryAFNS::getAfns)
+                    .toList();
+
+    List<MEA> mea =
+            countryMEARepository.findByCountry(country)
+                    .stream()
+                    .map(CountryMEA::getMea)
+                    .toList();
+
+    List<Other> other =
+            countryOtherRepository.findByCountry(country)
+                    .stream()
+                    .map(CountryOther::getOther)
+                    .toList();
+
+    model.addAttribute("fighters", fighters);
+    model.addAttribute("helicopters", helicopters);
+    model.addAttribute("afns", afns);
+    model.addAttribute("mea", mea);
+    model.addAttribute("other", other);
+}
 
 }

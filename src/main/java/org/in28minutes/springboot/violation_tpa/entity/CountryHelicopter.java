@@ -1,11 +1,11 @@
 package org.in28minutes.springboot.violation_tpa.entity;
 
+
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "country_fighter")
-public class CountryFighter {
-
+@Table(name = "country_helicopter")
+public class CountryHelicopter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,16 +15,15 @@ public class CountryFighter {
     private Country country;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "fighter_id")
-    private Fighter fighter;
+    @JoinColumn(name = "helicopter_id")
+    private Helicopter helicopter;
 
-    public CountryFighter(Country country, Fighter fighter) {
+    public CountryHelicopter(Country country, Helicopter helicopter) {
         this.country = country;
-        this.fighter = fighter;
+        this.helicopter = helicopter;
     }
 
-    public CountryFighter() {
-
+    public CountryHelicopter() {
     }
 
     public Long getId() {
@@ -43,11 +42,11 @@ public class CountryFighter {
         this.country = country;
     }
 
-    public Fighter getFighter() {
-        return fighter;
+    public Helicopter getHelicopter() {
+        return helicopter;
     }
 
-    public void setFighter(Fighter fighter) {
-        this.fighter = fighter;
+    public void setHelicopter(Helicopter helicopter) {
+        this.helicopter = helicopter;
     }
 }

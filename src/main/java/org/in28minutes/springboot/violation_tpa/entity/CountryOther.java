@@ -16,6 +16,15 @@ public class CountryOther {
     @ManyToOne
     private Other other;
 
+    public CountryOther(Country turkey, Other anka) {
+        this.country = turkey;
+        this.other = anka;
+    }
+
+    public CountryOther() {
+
+    }
+
     public Long getId() {
         return id;
     }

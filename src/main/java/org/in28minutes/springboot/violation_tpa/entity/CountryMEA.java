@@ -17,6 +17,14 @@ public class CountryMEA {
     @ManyToOne
     private MEA mea;
 
+    public CountryMEA(Country country, MEA mea) {
+        this.country = country;
+        this.mea = mea;
+    }
+
+    public CountryMEA() {
+    }
+
     public Long getId() {
         return id;
     }
