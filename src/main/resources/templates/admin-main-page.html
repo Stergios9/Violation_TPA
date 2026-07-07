@@ -947,9 +947,6 @@
   let fighterCounter = 0;
   let incomingAircraftItems = [];
 
-
-
-
   document
           .getElementById("addFighterBtn")
           .addEventListener("click", addFighter);
@@ -976,7 +973,20 @@
       armed: armed.checked
     };
 
+    // incomingAircraftItems.push(item)
+
+    const exists = incomingAircraftItems.some(
+            x => x.type === item.type
+    );
+
+    if (exists) {
+      alert("Ο τύπος υπάρχει ήδη.");
+      return;
+    }
+
     incomingAircraftItems.push(item);
+
+
 
     const list = document.getElementById("fighterList");
 
@@ -1045,7 +1055,22 @@
       qty: Number(qty.value)
     };
 
+    // incomingAircraftItems.push(item);  allow dublicates of the same type
+
+
+    // not allow duplicates of the same type
+    const exists = incomingAircraftItems.some(
+            x => x.type === item.type
+    );
+
+    if (exists) {
+      alert("Ο τύπος υπάρχει ήδη.");
+      return;
+    }
+
     incomingAircraftItems.push(item);
+
+
 
     const row = document.createElement("div");
     row.className = "row border rounded p-2 mb-2 align-items-center";
@@ -1070,6 +1095,9 @@
     updateIncomingTotal();
   }
 
+
+  //      ******************************************//
+  // ********* Add Item Button for Friendly Recognized ***********
   function addItemFriendlyRecognized(selectId, qtyId, listId) {
 
     const select = document.getElementById(selectId);
@@ -1118,6 +1146,8 @@
     updateFriendlyRec();
   }
 
+
+// ********* Update Friendly Recognized Total ***********
   function updateFriendlyRec() {
 
     let total = incomingAircraftItems.reduce((sum, item) => {
@@ -1127,6 +1157,7 @@
     document.getElementById("recognizedByFriendlyTotal").innerText = total;
   }
 
+  // ********* Remove Item Button ***********
 
   function removeItem(id, btn) {
 
@@ -1137,6 +1168,9 @@
 
     updateIncomingTotal();
   }
+
+
+
 
   function updateIncomingTotal() {
 
