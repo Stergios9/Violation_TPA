@@ -946,7 +946,6 @@
 
 <script th:attr="nonce=${cspNonce}">
 
-
   let incidentItems = [];
   let incomingAircraftItems = [];
 
@@ -989,27 +988,30 @@
 
     incomingAircraftItems.push(item);
 
-
-
     const list = document.getElementById("fighterList");
 
     const row = document.createElement("div");
     row.className = "row border rounded p-2 mb-2 align-items-center";
 
     row.innerHTML = `
-        <div class="col-4">${item.type}</div>
-        <div class="col-3">${item.qty}</div>
-        <div class="col-3">${item.armed ? 'Οπλισμένο' : 'Άοπλο'}</div>
-        <div class="col-2 text-end">
-            <button type="button"
-                    class="btn btn-danger btn-sm"
-                    onclick="removeItem(${item.id}, this)">
-                X
-            </button>
-        </div>
+    <div class="col-8">${item.type}</div>
+    <div class="col-2">${item.qty}</div>
+    <div class="col-2 text-end">
+        <button
+            type="button"
+            class="btn btn-danger btn-sm remove-btn">
+            X
+        </button>
+    </div>
     `;
 
     list.appendChild(row);
+
+    const removeButton = row.querySelector(".remove-btn");
+
+    removeButton.addEventListener("click", function () {
+      removeItem(item.id, row);
+    });
 
     updateIncomingTotal();
 
@@ -1078,26 +1080,32 @@
     const row = document.createElement("div");
     row.className = "row border rounded p-2 mb-2 align-items-center";
 
+
     row.innerHTML = `
-        <div class="col-8">${item.type}</div>
-        <div class="col-2">${item.qty}</div>
-        <div class="col-2 text-end">
-            <button type="button"
-                    class="btn btn-danger btn-sm"
-                    onclick="removeItem(${item.id}, this)">
-                X
-            </button>
-        </div>
+    <div class="col-8">${item.type}</div>
+    <div class="col-2">${item.qty}</div>
+    <div class="col-2 text-end">
+        <button
+            type="button"
+            class="btn btn-danger btn-sm remove-btn">
+            X
+        </button>
+    </div>
     `;
 
     list.appendChild(row);
+
+    const removeButton = row.querySelector(".remove-btn");
+
+    removeButton.addEventListener("click", function () {
+      removeItem(item.id, row);
+    });
 
     select.selectedIndex = 0;
     qty.value = "";
 
     updateIncomingTotal();
   }
-
 
   //      ******************************************//
   // ********* Add Item Button for Friendly Recognized ***********
@@ -1133,22 +1141,27 @@
         <div class="col-8">${item.type}</div>
         <div class="col-2">${item.qty}</div>
         <div class="col-2 text-end">
-            <button type="button"
-                    class="btn btn-danger btn-sm"
-                    onclick="removeItem(${item.id}, this)">
+            <button
+                type="button"
+                class="btn btn-danger btn-sm remove-btn">
                 X
             </button>
         </div>
-    `;
+        `;
 
     list.appendChild(row);
+
+    const removeButton = row.querySelector(".remove-btn");
+
+    removeButton.addEventListener("click", function () {
+      removeItem(item.id, row);
+    });
 
     select.selectedIndex = 0;
     qty.value = "";
 
     updateFriendlyRec();
   }
-
 
   // ********* Update Friendly Recognized Total ***********
   function updateFriendlyRec() {
@@ -1160,18 +1173,26 @@
     document.getElementById("recognizedByFriendlyTotal").innerText = total;
   }
 
+
+
   // ********* Remove Item Button ***********
 
-  function removeItem(id, btn) {
+  function removeItem(id, row) {
 
     incomingAircraftItems =
             incomingAircraftItems.filter(x => x.id !== id);
 
-    btn.closest('.row').remove();
+    row.remove();
 
     updateIncomingTotal();
   }
 
+
+  // const removeButton = row.querySelector(".remove-btn");
+  //
+  // removeButton.addEventListener("click", function () {
+  //     removeItem(item.id, row);
+  // });
 
 
 
@@ -1183,8 +1204,6 @@
 
     document.getElementById("incomingAircraftTotal").innerText = total;
   }
-
-
 
   function calculateViolationTotal() {
 
@@ -1214,6 +1233,8 @@
                     calculateViolationTotal);
           });
 
+
+
   function calculateViolationTotal_EEX() {
 
     const fighter =
@@ -1234,13 +1255,14 @@
     document.getElementById("violTotal_EEX").value =
             fighter + afns + ep + mea + alla;
   }
-
   document
           .querySelectorAll(".violation-input")
           .forEach(input => {
             input.addEventListener("input",
                     calculateViolationTotal_EEX);
           });
+
+
 
   function calculateViolationTotal_Flights() {
 
@@ -1255,13 +1277,14 @@
     document.getElementById("flightsTotal").value =
             flightGrndIsl + flight_MN_BN;
   }
-
   document
           .querySelectorAll(".violation-input")
           .forEach(input => {
             input.addEventListener("input",
                     calculateViolationTotal_Flights);
           });
+
+
 
   function validate_text(input, errorSpanId) {
 
@@ -1275,8 +1298,6 @@
       errorSpan.textContent = "";
     }
   }
-
-
 
 </script>
 

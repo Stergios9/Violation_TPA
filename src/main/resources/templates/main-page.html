@@ -1007,6 +1007,12 @@
 
         list.appendChild(row);
 
+        const removeButton = row.querySelector(".remove-btn");
+
+        removeButton.addEventListener("click", function () {
+            removeItem(item.id, row);
+        });
+
         updateIncomingTotal();
 
         select.selectedIndex = 0;
@@ -1089,6 +1095,12 @@
 
         list.appendChild(row);
 
+        const removeButton = row.querySelector(".remove-btn");
+
+        removeButton.addEventListener("click", function () {
+            removeItem(item.id, row);
+        });
+
         select.selectedIndex = 0;
         qty.value = "";
 
@@ -1139,6 +1151,12 @@
 
         list.appendChild(row);
 
+        const removeButton = row.querySelector(".remove-btn");
+
+        removeButton.addEventListener("click", function () {
+            removeItem(item.id, row);
+        });
+
         select.selectedIndex = 0;
         qty.value = "";
 
@@ -1170,11 +1188,11 @@
     }
 
 
-    const removeButton = row.querySelector(".remove-btn");
-
-    removeButton.addEventListener("click", function () {
-        removeItem(item.id, row);
-    });
+    // const removeButton = row.querySelector(".remove-btn");
+    //
+    // removeButton.addEventListener("click", function () {
+    //     removeItem(item.id, row);
+    // });
 
 
 
