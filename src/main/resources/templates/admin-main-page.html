@@ -148,9 +148,9 @@
 <div class="container-fluid">
 
   <h3 class="title">Παραβάσεις - Παραβιάσεις Τουρκικών Διεισδύσεων</h3>
+  <form id="incidentForm">
 
-  <!-- FORM START -->
-  <form th:action="@{/incident/save}" method="post">
+    <input type="hidden" id="countryId" th:value="${country.id}">
 
     <!-- Ημερομηνία -->
     <div class="row mb-3">
@@ -179,6 +179,7 @@
             <div class="incoming-row" >
               <label>ΣΧΗΜΑΤΙΣΜΟΙ</label>
               <input type="number"
+                     id="sxhmatismoi"
                      class="form-control single-input"
                      name="sxhmatismoi"
                      min="1"
@@ -189,6 +190,7 @@
             <div class="incoming-row">
               <label>Α/Φ</label>
               <input type="number"
+                     id="aircraft"
                      class="form-control single-input"
                      name="aircraft"
                      min="1"
@@ -203,12 +205,14 @@
               <div class="double-inputs">
 
                 <input type="number"
+                       id="OplaSxhmatismoi"
                        class="form-control"
                        name="OplaSxhmatismoi"
                        min="1"
                        placeholder="ΣΧΗΜ"> /
 
                 <input type="number"
+                       id="OplaAircrafts"
                        class="form-control"
                        name="OplaAircrafts"
                        min="1"
@@ -221,7 +225,9 @@
             <!-- 4. ΕΜΠΛΟΚΕΣ -->
             <div class="incoming-row">
               <label>ΕΜΠΛΟΚΕΣ</label>
+
               <input type="number"
+                     id="engagements"
                      class="form-control"
                      name="engagements"
                      min="1"
@@ -232,6 +238,7 @@
             <div class="incoming-row">
               <label>ΔΥΤΙΚΑ ΤΟΥ 25</label>
               <input type="number"
+                     id="westTo25"
                      class="form-control"
                      name="westTo25"
                      min="1"
@@ -387,11 +394,7 @@
               </div>
 
               <div class="col-8 text-end">
-<!--                <button type="button"-->
-<!--                        class="btn btn-success"-->
-<!--                        onclick="addItem('epSelect','epQty','epList')">-->
-<!--                  Προσθήκη-->
-<!--                </button>-->
+
                 <button type="button"
                         class="btn btn-success add-item-btn"
                         data-select="epSelect"
@@ -554,17 +557,6 @@
                          readonly
                          value="0">
                 </div>
-
-                <!--                                with bootstarps-->
-                <!--                                <div class="violation-item total-field mt-4">-->
-                <!--                                    <label style="font-size: larger"><strong>ΣΥΝΟΛΟ</strong></label>-->
-                <!--                                    <input type="text"-->
-                <!--                                           id="violTotal"-->
-                <!--                                           class="form-control"-->
-                <!--                                           readonly-->
-                <!--                                           value="0">-->
-                <!--                                </div>-->
-
               </div>
 
             </div>
@@ -779,7 +771,9 @@
             <div class="incoming-row" >
 
               <label>ΣΥΝΟΛΟ ΑΝΑΓΝΩΡΙΣΕΩΝ ΑΠΟ ΜΑΧΗΤΙΚΑ</label>
-              <input type="number"
+              <input
+                     type="number"
+                     id="recognizedByFighter"
                      class="form-control single-input"
                      style="margin-left: 100px"
                      min="1"
@@ -791,7 +785,9 @@
             <div class="incoming-row" >
 
               <label>ΣΧΗΜΑΤΙΣΜΟΙ-ΙΧΝΗ Α/Φ ΑΝΑΓΝΩΡΙΣΗΣ</label>
-              <input type="number"
+              <input
+                     type="number"
+                     id="recognizedByFighterFormation"
                      class="form-control single-input"
                      style="margin-left: 100px"
                      min="1"
@@ -935,6 +931,10 @@
 
     </div>
 
+    <input type="hidden"
+           id="itemsJson"
+           name="itemsJson">
+
   </form>
   <!-- FORM END -->
 
@@ -943,8 +943,7 @@
 <script th:attr="nonce=${cspNonce}">
 
 
-
-  let fighterCounter = 0;
+  let incidentItems = [];
   let incomingAircraftItems = [];
 
   document
@@ -966,17 +965,25 @@
       alert("Συμπληρώστε πλήθος");
       return;
     }
-    const item = {
+
+    const uiItem = {
       id: Date.now(),
       type: select.options[select.selectedIndex].text,
       qty: Number(qty.value),
       armed: armed.checked
     };
 
-    // incomingAircraftItems.push(item)
+    const incidentItem = {
+      id: uiItem.id,          // same temporary id
+      category: "FIGHTER",
+      referenceId: Number(select.value),
+      quantity: Number(qty.value),
+      armed: armed.checked
+    };
+
 
     const exists = incomingAircraftItems.some(
-            x => x.type === item.type
+            x => x.referenceId === item.referenceId
     );
 
     if (exists) {
@@ -984,7 +991,8 @@
       return;
     }
 
-    incomingAircraftItems.push(item);
+    incomingAircraftItems.push(uiItem);
+    incidentItems.push(incidentItem);
 
 
 
@@ -994,13 +1002,13 @@
     row.className = "row border rounded p-2 mb-2 align-items-center";
 
     row.innerHTML = `
-        <div class="col-4">${item.type}</div>
-        <div class="col-3">${item.qty}</div>
-        <div class="col-3">${item.armed ? 'Οπλισμένο' : 'Άοπλο'}</div>
+        <div class="col-4">${uiItem.type}</div>
+        <div class="col-3">${uiItem.qty}</div>
+        <div class="col-3">${uiItem.armed ? 'Οπλισμένο' : 'Άοπλο'}</div>
         <div class="col-2 text-end">
             <button type="button"
                     class="btn btn-danger btn-sm"
-                    onclick="removeItem(${item.id}, this)">
+                    onclick="removeItem(${uiItem.id}, this)">
                 X
             </button>
         </div>
@@ -1055,20 +1063,20 @@
       qty: Number(qty.value)
     };
 
-    // incomingAircraftItems.push(item);  allow dublicates of the same type
+    // incidentItems.push(item);  allow dublicates of the same type
 
 
     // not allow duplicates of the same type
     const exists = incomingAircraftItems.some(
-            x => x.type === item.type
+            x => x.referenceId === item.referenceId
     );
 
     if (exists) {
       alert("Ο τύπος υπάρχει ήδη.");
       return;
     }
-
     incomingAircraftItems.push(item);
+    incidentItems.push(item);
 
 
 
@@ -1120,8 +1128,8 @@
       type: select.options[select.selectedIndex].text,
       qty: Number(qty.value)
     };
-
     incomingAircraftItems.push(item);
+    incidentItems.push(item);
 
     const row = document.createElement("div");
     row.className = "row border rounded p-2 mb-2 align-items-center";
@@ -1154,6 +1162,10 @@
       return sum + (item.qty || 0);
     }, 0);
 
+    let totalIncid = incidentItems.reduce((sum, item) => {
+      return sum + (item.qty || 0);
+    }, 0);
+
     document.getElementById("recognizedByFriendlyTotal").innerText = total;
   }
 
@@ -1164,7 +1176,10 @@
     incomingAircraftItems =
             incomingAircraftItems.filter(x => x.id !== id);
 
-    btn.closest('.row').remove();
+    incidentItems =
+            incidentItems.filter(x => x.id !== id);
+
+    btn.closest(".row").remove();
 
     updateIncomingTotal();
   }
@@ -1175,6 +1190,10 @@
   function updateIncomingTotal() {
 
     let total = incomingAircraftItems.reduce((sum, item) => {
+      return sum + (item.qty || 0);
+    }, 0);
+
+    let totalInc = incidentItems.reduce((sum, item) => {
       return sum + (item.qty || 0);
     }, 0);
 
@@ -1272,6 +1291,86 @@
       errorSpan.textContent = "";
     }
   }
+
+
+  document
+          .getElementById("incidentForm")
+          .addEventListener("submit", function(e){
+
+            e.preventDefault();
+
+
+            const data = {
+
+              incidentDate:
+              document.querySelector("[name='incidentDate']").value,
+
+
+              countryId:
+                      Number(document.getElementById("countryId").value),
+
+
+              formations:
+                      Number(document.getElementById("formations").value || 0),
+
+
+              aircraft:
+                      Number(document.getElementById("aircraft").value || 0),
+
+
+              armedFormations:
+                      Number(document.getElementById("armedFormations").value || 0),
+
+
+              armedAircraft:
+                      Number(document.getElementById("armedAircraft").value || 0),
+
+
+              engagements:
+                      Number(document.getElementById("engagements").value || 0),
+
+
+              west25:
+                      Number(document.getElementById("west25").value || 0),
+
+
+              athinaiFir:
+                      Number(document.getElementById("athinaiFir").value || 0),
+
+
+              revelationArea:
+              document.getElementById("revelationArea").value,
+
+
+              items: incidentItems
+
+            };
+
+
+
+            fetch("/incident/save", {
+
+              method:"POST",
+
+              headers:{
+                "Content-Type":"application/json"
+              },
+
+              body:JSON.stringify(data)
+
+            })
+                    .then(response=>{
+
+                      if(response.ok){
+
+                        alert("Το incident αποθηκεύτηκε");
+
+                      }
+
+                    });
+
+
+          });
 
 
 

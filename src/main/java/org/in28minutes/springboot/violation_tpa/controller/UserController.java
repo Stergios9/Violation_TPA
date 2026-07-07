@@ -3,7 +3,6 @@ package org.in28minutes.springboot.violation_tpa.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.in28minutes.springboot.violation_tpa.dto.IncidentFormDTO;
 import org.in28minutes.springboot.violation_tpa.entity.*;
 import org.in28minutes.springboot.violation_tpa.repository.*;
 import org.in28minutes.springboot.violation_tpa.service.*;
@@ -80,6 +79,7 @@ public class UserController {
         Country country = countryRepository
                 .findByName(countryName)
                 .orElseThrow();
+        model.addAttribute("country", country);
 
         fillInputFields(model, country);
 
@@ -96,8 +96,10 @@ public class UserController {
         Country country = countryRepository
                 .findByName(countryName)
                 .orElseThrow();
+        model.addAttribute("country", country);
 
         fillInputFields(model, country);
+
 
         return "admin-main-page";
     }
@@ -105,21 +107,26 @@ public class UserController {
     @GetMapping("/super-main-page")
     public String superPage(HttpSession session, Model model) {
 
-        String country = (String) session.getAttribute("selectedCountry");
+        String countryName = (String) session.getAttribute("selectedCountry");
 
+        Country country = countryRepository
+                .findByName(countryName)
+                .orElseThrow();
         model.addAttribute("country", country);
+
+        fillInputFields(model, country);
 
         return "super-main-page";
     }
 
-    @PostMapping("/incident/exportExcel")
-    public void exportExcel(
-            @ModelAttribute IncidentFormDTO dto,
-            HttpServletResponse response) throws IOException {
-
-        excelService.exportIncidentToExcel(dto, response);
-
-    }
+//    @PostMapping("/incident/exportExcel")
+//    public void exportExcel(
+//            @ModelAttribute IncidentFormDTO dto,
+//            HttpServletResponse response) throws IOException {
+//
+//        excelService.exportIncidentToExcel(dto, response);
+//
+//    }
 
     @PostMapping("/register")
     public User register(@RequestBody User user) {

@@ -15,12 +15,10 @@ public class Country {
 
     public Country() {
     }
-
     public Country(Long id, String name) {
         this.id = id;
         this.name = name;
     }
-
     public Long getId() {
         return id;
     }
@@ -36,6 +34,4 @@ public class Country {
     public void setName(String name) {
         this.name = name;
     }
-
-
 }

@@ -140,6 +140,7 @@
         }
 
     </style>
+
 </head>
 
 <body>
@@ -149,7 +150,11 @@
     <h3 class="title">Παραβάσεις - Παραβιάσεις Τουρκικών Διεισδύσεων</h3>
 
     <!-- FORM START -->
-    <form th:action="@{/incident/save}" method="post">
+    <!--  <form id="incidentForm"-->
+    <!--          th:action="@{/incident/save}" method="post">-->
+    <form id="incidentForm">
+
+        <input type="hidden" id="countryId" th:value="${country.id}">
 
         <!-- Ημερομηνία -->
         <div class="row mb-3">
@@ -178,6 +183,7 @@
                         <div class="incoming-row" >
                             <label>ΣΧΗΜΑΤΙΣΜΟΙ</label>
                             <input type="number"
+                                   id="sxhmatismoi"
                                    class="form-control single-input"
                                    name="sxhmatismoi"
                                    min="1"
@@ -188,6 +194,7 @@
                         <div class="incoming-row">
                             <label>Α/Φ</label>
                             <input type="number"
+                                   id="aircraft"
                                    class="form-control single-input"
                                    name="aircraft"
                                    min="1"
@@ -202,12 +209,14 @@
                             <div class="double-inputs">
 
                                 <input type="number"
+                                       id="OplaSxhmatismoi"
                                        class="form-control"
                                        name="OplaSxhmatismoi"
                                        min="1"
                                        placeholder="ΣΧΗΜ"> /
 
                                 <input type="number"
+                                       id="OplaAircrafts"
                                        class="form-control"
                                        name="OplaAircrafts"
                                        min="1"
@@ -220,7 +229,9 @@
                         <!-- 4. ΕΜΠΛΟΚΕΣ -->
                         <div class="incoming-row">
                             <label>ΕΜΠΛΟΚΕΣ</label>
+
                             <input type="number"
+                                   id="engagements"
                                    class="form-control"
                                    name="engagements"
                                    min="1"
@@ -231,6 +242,7 @@
                         <div class="incoming-row">
                             <label>ΔΥΤΙΚΑ ΤΟΥ 25</label>
                             <input type="number"
+                                   id="westTo25"
                                    class="form-control"
                                    name="westTo25"
                                    min="1"
@@ -252,13 +264,16 @@
                         <label>ΜΑΧΗΤΙΚΑ</label>
 
                         <select id="fighterSelect" class="form-select">
+
                             <option value="">-- ΤΥΠΟΣ --</option>
 
-                            <th:block th:each="a : ${aircraftGrouped['ΜΑΧΗΤΙΚΑ']}">
-                                <option th:value="${a.id}"
-                                        th:text="${a.typeName}">
+                            <th:block th:each="fighter : ${fighters}">
+                                <option
+                                        th:value="${fighter.id}"
+                                        th:text="${fighter.typeName}">
                                 </option>
                             </th:block>
+
                         </select>
 
                         <div class="row mt-2" >
@@ -319,11 +334,13 @@
                         <select id="afnsSelect" class="form-select">
                             <option value="">-- ΤΥΠΟΣ --</option>
 
-                            <th:block th:each="a : ${aircraftGrouped['ΑΦΝΣ']}">
-                                <option th:value="${a.id}"
+                            <th:block th:each="a : ${afns}">
+                                <option
+                                        th:value="${a.id}"
                                         th:text="${a.typeName}">
                                 </option>
                             </th:block>
+
                         </select>
 
                         <div class="row mt-2">
@@ -361,11 +378,13 @@
                         <select id="epSelect" class="form-select">
                             <option value="">-- ΤΥΠΟΣ --</option>
 
-                            <th:block th:each="a : ${aircraftGrouped['Ε/Π']}">
-                                <option th:value="${a.id}"
+                            <th:block th:each="a : ${helicopters}">
+                                <option
+                                        th:value="${a.id}"
                                         th:text="${a.typeName}">
                                 </option>
                             </th:block>
+
                         </select>
 
                         <div class="row mt-2">
@@ -379,11 +398,7 @@
                             </div>
 
                             <div class="col-8 text-end">
-                                <!--                <button type="button"-->
-                                <!--                        class="btn btn-success"-->
-                                <!--                        onclick="addItem('epSelect','epQty','epList')">-->
-                                <!--                  Προσθήκη-->
-                                <!--                </button>-->
+
                                 <button type="button"
                                         class="btn btn-success add-item-btn"
                                         data-select="epSelect"
@@ -407,11 +422,13 @@
                         <select id="meaSelect" class="form-select">
                             <option value="">-- ΤΥΠΟΣ --</option>
 
-                            <th:block th:each="a : ${aircraftGrouped['ΜΕΑ']}">
-                                <option th:value="${a.id}"
+                            <th:block th:each="a : ${mea}">
+                                <option
+                                        th:value="${a.id}"
                                         th:text="${a.typeName}">
                                 </option>
                             </th:block>
+
                         </select>
 
                         <div class="row mt-2">
@@ -447,11 +464,13 @@
                         <select id="allaSelect" class="form-select">
                             <option value="">-- ΤΥΠΟΣ --</option>
 
-                            <th:block th:each="a : ${aircraftGrouped['ΑΛΛΑ']}">
-                                <option th:value="${a.id}"
+                            <th:block th:each="a : ${other}">
+                                <option
+                                        th:value="${a.id}"
                                         th:text="${a.typeName}">
                                 </option>
                             </th:block>
+
                         </select>
 
                         <div class="row mt-2">
@@ -542,17 +561,6 @@
                                            readonly
                                            value="0">
                                 </div>
-
-                                <!--                                with bootstarps-->
-                                <!--                                <div class="violation-item total-field mt-4">-->
-                                <!--                                    <label style="font-size: larger"><strong>ΣΥΝΟΛΟ</strong></label>-->
-                                <!--                                    <input type="text"-->
-                                <!--                                           id="violTotal"-->
-                                <!--                                           class="form-control"-->
-                                <!--                                           readonly-->
-                                <!--                                           value="0">-->
-                                <!--                                </div>-->
-
                             </div>
 
                         </div>
@@ -767,11 +775,13 @@
                         <div class="incoming-row" >
 
                             <label>ΣΥΝΟΛΟ ΑΝΑΓΝΩΡΙΣΕΩΝ ΑΠΟ ΜΑΧΗΤΙΚΑ</label>
-                            <input type="number"
-                                   class="form-control single-input"
-                                   style="margin-left: 100px"
-                                   min="1"
-                                   placeholder="Πλήθος">
+                            <input
+                                    type="number"
+                                    id="recognizedByFighter"
+                                    class="form-control single-input"
+                                    style="margin-left: 100px"
+                                    min="1"
+                                    placeholder="Πλήθος">
                         </div>
                     </div>
 
@@ -779,11 +789,13 @@
                         <div class="incoming-row" >
 
                             <label>ΣΧΗΜΑΤΙΣΜΟΙ-ΙΧΝΗ Α/Φ ΑΝΑΓΝΩΡΙΣΗΣ</label>
-                            <input type="number"
-                                   class="form-control single-input"
-                                   style="margin-left: 100px"
-                                   min="1"
-                                   placeholder="Πλήθος">
+                            <input
+                                    type="number"
+                                    id="recognizedByFighterFormation"
+                                    class="form-control single-input"
+                                    style="margin-left: 100px"
+                                    min="1"
+                                    placeholder="Πλήθος">
                         </div>
                     </div>
 
@@ -923,6 +935,10 @@
 
         </div>
 
+        <input type="hidden"
+               id="itemsJson"
+               name="itemsJson">
+
     </form>
     <!-- FORM END -->
 
@@ -930,13 +946,8 @@
 
 <script th:attr="nonce=${cspNonce}">
 
-
-
-    let fighterCounter = 0;
+    let incidentItems = [];
     let incomingAircraftItems = [];
-
-
-
 
     document
         .getElementById("addFighterBtn")
@@ -964,6 +975,17 @@
             armed: armed.checked
         };
 
+        // incomingAircraftItems.push(item)
+
+        const exists = incomingAircraftItems.some(
+            x => x.type === item.type
+        );
+
+        if (exists) {
+            alert("Ο τύπος υπάρχει ήδη.");
+            return;
+        }
+
         incomingAircraftItems.push(item);
 
         const list = document.getElementById("fighterList");
@@ -971,17 +993,16 @@
         const row = document.createElement("div");
         row.className = "row border rounded p-2 mb-2 align-items-center";
 
-        row.innerHTML = `
-        <div class="col-4">${item.type}</div>
-        <div class="col-3">${item.qty}</div>
-        <div class="col-3">${item.armed ? 'Οπλισμένο' : 'Άοπλο'}</div>
-        <div class="col-2 text-end">
-            <button type="button"
-                    class="btn btn-danger btn-sm"
-                    onclick="removeItem(${item.id}, this)">
-                X
-            </button>
-        </div>
+    row.innerHTML = `
+    <div class="col-8">${item.type}</div>
+    <div class="col-2">${item.qty}</div>
+    <div class="col-2 text-end">
+        <button
+            type="button"
+            class="btn btn-danger btn-sm remove-btn">
+            X
+        </button>
+    </div>
     `;
 
         list.appendChild(row);
@@ -1033,21 +1054,37 @@
             qty: Number(qty.value)
         };
 
+        // incomingAircraftItems.push(item);  allow dublicates of the same type
+
+
+        // not allow duplicates of the same type
+        const exists = incomingAircraftItems.some(
+            x => x.type === item.type
+        );
+
+        if (exists) {
+            alert("Ο τύπος υπάρχει ήδη.");
+            return;
+        }
+
         incomingAircraftItems.push(item);
+
+
 
         const row = document.createElement("div");
         row.className = "row border rounded p-2 mb-2 align-items-center";
 
-        row.innerHTML = `
-        <div class="col-8">${item.type}</div>
-        <div class="col-2">${item.qty}</div>
-        <div class="col-2 text-end">
-            <button type="button"
-                    class="btn btn-danger btn-sm"
-                    onclick="removeItem(${item.id}, this)">
-                X
-            </button>
-        </div>
+
+    row.innerHTML = `
+    <div class="col-8">${item.type}</div>
+    <div class="col-2">${item.qty}</div>
+    <div class="col-2 text-end">
+        <button
+            type="button"
+            class="btn btn-danger btn-sm remove-btn">
+            X
+        </button>
+    </div>
     `;
 
         list.appendChild(row);
@@ -1058,6 +1095,8 @@
         updateIncomingTotal();
     }
 
+    //      ******************************************//
+    // ********* Add Item Button for Friendly Recognized ***********
     function addItemFriendlyRecognized(selectId, qtyId, listId) {
 
         const select = document.getElementById(selectId);
@@ -1090,13 +1129,13 @@
         <div class="col-8">${item.type}</div>
         <div class="col-2">${item.qty}</div>
         <div class="col-2 text-end">
-            <button type="button"
-                    class="btn btn-danger btn-sm"
-                    onclick="removeItem(${item.id}, this)">
+            <button
+                type="button"
+                class="btn btn-danger btn-sm remove-btn">
                 X
             </button>
         </div>
-    `;
+        `;
 
         list.appendChild(row);
 
@@ -1106,6 +1145,7 @@
         updateFriendlyRec();
     }
 
+    // ********* Update Friendly Recognized Total ***********
     function updateFriendlyRec() {
 
         let total = incomingAircraftItems.reduce((sum, item) => {
@@ -1116,15 +1156,27 @@
     }
 
 
-    function removeItem(id, btn) {
+
+    // ********* Remove Item Button ***********
+
+    function removeItem(id, row) {
 
         incomingAircraftItems =
             incomingAircraftItems.filter(x => x.id !== id);
 
-        btn.closest('.row').remove();
+        row.remove();
 
         updateIncomingTotal();
     }
+
+
+    const removeButton = row.querySelector(".remove-btn");
+
+    removeButton.addEventListener("click", function () {
+        removeItem(item.id, row);
+    });
+
+
 
     function updateIncomingTotal() {
 
@@ -1134,8 +1186,6 @@
 
         document.getElementById("incomingAircraftTotal").innerText = total;
     }
-
-
 
     function calculateViolationTotal() {
 
@@ -1165,6 +1215,8 @@
                 calculateViolationTotal);
         });
 
+
+
     function calculateViolationTotal_EEX() {
 
         const fighter =
@@ -1185,13 +1237,14 @@
         document.getElementById("violTotal_EEX").value =
             fighter + afns + ep + mea + alla;
     }
-
     document
         .querySelectorAll(".violation-input")
         .forEach(input => {
             input.addEventListener("input",
                 calculateViolationTotal_EEX);
         });
+
+
 
     function calculateViolationTotal_Flights() {
 
@@ -1206,13 +1259,14 @@
         document.getElementById("flightsTotal").value =
             flightGrndIsl + flight_MN_BN;
     }
-
     document
         .querySelectorAll(".violation-input")
         .forEach(input => {
             input.addEventListener("input",
                 calculateViolationTotal_Flights);
         });
+
+
 
     function validate_text(input, errorSpanId) {
 
@@ -1226,8 +1280,6 @@
             errorSpan.textContent = "";
         }
     }
-
-
 
 </script>
 
