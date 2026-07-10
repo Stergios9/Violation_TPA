@@ -96,8 +96,9 @@ public class SecurityConfig {
                                 "/images/**"
                         ).permitAll()
 
-                        .requestMatchers("/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
-                        .requestMatchers("/super/**").hasRole("SUPER_ADMIN")
+                        .requestMatchers("/turkey-admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
+                        .requestMatchers("/turkey-user-page/**").hasAnyRole("ADMIN", "SUPER_ADMIN","USER")
+                        .requestMatchers("/turkey-super/**").hasRole("SUPER_ADMIN")
 
                         .anyRequest().authenticated()
                 )

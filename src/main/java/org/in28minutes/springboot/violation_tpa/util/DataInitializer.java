@@ -252,17 +252,18 @@ public class DataInitializer implements CommandLineRunner {
                 new CountryFighter(
                         turkey,
                         fighterRepository.findByTypeName("EF-2000").orElseThrow()
-                ),
-
-                new CountryFighter(
-                        turkey,
-                        fighterRepository.findByTypeName("NF-5").orElseThrow()
-                ),
-
-                new CountryFighter(
-                        turkey,
-                        fighterRepository.findByTypeName("KAAN").orElseThrow()
                 )
+
+                // βάση του εγγράφου της 14 Μαιού από το ΓΕΕΘΑ
+//                new CountryFighter(
+//                        turkey,
+//                        fighterRepository.findByTypeName("NF-5").orElseThrow()
+//                ),
+//
+//                new CountryFighter(
+//                        turkey,
+//                        fighterRepository.findByTypeName("KAAN").orElseThrow()
+//                )
         ));
     }
 
@@ -385,11 +386,6 @@ public class DataInitializer implements CommandLineRunner {
                         turkey,
                         meaRepository.findByTypeName("ANKA").orElseThrow()
                 ),
-
-                new CountryMEA(
-                        turkey,
-                        meaRepository.findByTypeName("AKINCI").orElseThrow()
-                ),
                 new CountryMEA(
                         turkey,
                         meaRepository.findByTypeName("AKSUNGUR").orElseThrow()
@@ -400,32 +396,45 @@ public class DataInitializer implements CommandLineRunner {
                 ),
                 new CountryMEA(
                         turkey,
-                        meaRepository.findByTypeName("HERON").orElseThrow()
-                ),
-                new CountryMEA(
-                        turkey,
-                        meaRepository.findByTypeName("HARPY").orElseThrow()
-                ),
-                new CountryMEA(
-                        turkey,
-                        meaRepository.findByTypeName("I-GNAT").orElseThrow()
-                ),
-                new CountryMEA(
-                        turkey,
-                        meaRepository.findByTypeName("GNAT-750").orElseThrow()
-                ),
-                new CountryMEA(
-                        turkey,
-                        meaRepository.findByTypeName("KARAYEL").orElseThrow()
-                ),
-                new CountryMEA(
-                        turkey,
-                        meaRepository.findByTypeName("CALDIRAM").orElseThrow()
-                ),
-                new CountryMEA(
-                        turkey,
                         meaRepository.findByTypeName("KIZILELMA").orElseThrow()
+                ),
+                new CountryMEA(
+                        turkey,
+                        meaRepository.findByTypeName("KARAYEL-ΙΙ").orElseThrow()
+                ),
+                new CountryMEA(
+                        turkey,
+                        meaRepository.findByTypeName("ΑΛΛΟΙ ΤΥΠΟΙ ΜΕΑ").orElseThrow()
+                ),
+                new CountryMEA(
+                        turkey,
+                        meaRepository.findByTypeName("AKINCI").orElseThrow()
                 )
+                // Δε προβλέπονται τα υπόλοιπα βάση του εγγραφου της 16 Μαιού από το ΓΕΕΘΑ
+
+
+//                new CountryMEA(
+//                        turkey,
+//                        meaRepository.findByTypeName("HERON").orElseThrow()
+//                ),
+//                new CountryMEA(
+//                        turkey,
+//                        meaRepository.findByTypeName("HARPY").orElseThrow()
+//                ),
+//                new CountryMEA(
+//                        turkey,
+//                        meaRepository.findByTypeName("I-GNAT").orElseThrow()
+//                ),
+//                new CountryMEA(
+//                        turkey,
+//                        meaRepository.findByTypeName("GNAT-750").orElseThrow()
+//                ),
+
+//                new CountryMEA(
+//                        turkey,
+//                        meaRepository.findByTypeName("CALDIRAM").orElseThrow()
+//                ),
+
         ));
     }
 

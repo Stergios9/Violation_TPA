@@ -1,11 +1,6 @@
 package org.in28minutes.springboot.violation_tpa.controller;
 
 import jakarta.servlet.http.HttpSession;
-import org.in28minutes.springboot.violation_tpa.entity.*;
-import org.in28minutes.springboot.violation_tpa.repository.CountryAFNSRepository;
-import org.in28minutes.springboot.violation_tpa.repository.CountryFighterRepository;
-import org.in28minutes.springboot.violation_tpa.repository.CountryMEARepository;
-import org.in28minutes.springboot.violation_tpa.repository.CountryOtherRepository;
 import org.in28minutes.springboot.violation_tpa.security.CountryService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
-import java.util.List;
 
 @Controller
 public class CountryController {
@@ -46,13 +40,13 @@ public class CountryController {
         Collection<? extends GrantedAuthority> roles =
                 authentication.getAuthorities();
 
-        String redirect = "/main-page";
+        String redirect = "turkey-user-page";
 
         if (roles.stream().anyMatch(r -> r.getAuthority().equals("ROLE_SUPER_ADMIN"))) {
-            redirect = "/super-main-page";
+            redirect = "/turkey-superAdmin-page";
         }
         else if (roles.stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"))) {
-            redirect = "/admin-main-page";
+            redirect = "/turkey-admin-page";
         }
 
         return "redirect:" + redirect;

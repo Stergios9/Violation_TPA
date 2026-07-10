@@ -73,7 +73,7 @@ public class UserController {
         return "login-page";
     }
 
-    @GetMapping("/main-page")
+    @GetMapping("/turkey-user-page")
     public String mainPage(
             HttpSession session,
             Model model) {
@@ -88,7 +88,7 @@ public class UserController {
         fillInputFields(model, country);
         model.addAttribute("incidentFormDto", new IncidentFormDTO());
 
-        return "main-page";
+        return "turkey-user-page";
     }
 
 
@@ -100,10 +100,10 @@ public class UserController {
 
         incidentService.saveIncident(dto, session, authentication);
 
-        return "redirect:/main-page";
+        return "redirect:/turkey-user-page";
     }
 
-    @GetMapping("/admin-main-page")
+    @GetMapping("/turkey-admin-page")
     public String adminMainPage(
             HttpSession session,
             Model model) {
@@ -117,10 +117,10 @@ public class UserController {
 
         fillInputFields(model, country);
         model.addAttribute("incidentForm", new IncidentFormDTO());
-        return "admin-main-page";
+        return "turkey-admin-page";
     }
 
-    @GetMapping("/super-main-page")
+    @GetMapping("/turkey-superAdmin-page")
     public String superPage(HttpSession session, Model model) {
 
         String countryName = (String) session.getAttribute("selectedCountry");
@@ -132,7 +132,7 @@ public class UserController {
 
         fillInputFields(model, country);
 
-        return "super-main-page";
+        return "turkey-superAdmin-page";
     }
 
 //    @PostMapping("/incident/exportExcel")
@@ -150,41 +150,7 @@ public class UserController {
 //        return userService.saveUser(user);
 //    }
 
-    @GetMapping("/csrf-token")
-    public CsrfToken getCsrfToken(HttpServletRequest request) {
-        return (CsrfToken) request.getAttribute("_csrf");
-    }
 
-
-    // Manual Authentication (not recommended for production, use Spring Security's built-in mechanisms instead)
-//    @PostMapping("/loginManual")
-//    public String loginManual(@RequestBody User user) {
-//
-//        Authentication authentication = authenticationManager
-//                .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-//
-//        if (authentication.isAuthenticated())
-//            return jwtService.generateToken(user.getUsername());
-//        else return "Login Failed";
-//    }
-
-
-//    @GetMapping("/home")
-//    public String homePage(Model model) {
-//
-//        List<AircraftType> allAircraft = aircraftTypeService.getAll();
-//
-//        Map<String, List<AircraftType>> aircraftGrouped =
-//                allAircraft.stream()
-//                        .collect(Collectors.groupingBy(AircraftType::getCategory));
-//
-//        model.addAttribute("aircraftGrouped", aircraftGrouped);
-//        model.addAttribute("entryAreas", entryAreaService.getAll());
-//        model.addAttribute("friendlyAircraftList", friendlyAircraftService.getAll());
-//        model.addAttribute("incidentFormDTO", new IncidentFormDTO());
-//
-//        return "main-page";
-//    }
 private void fillInputFields(Model model, Country country) {
 
     List<Fighter> fighters =
