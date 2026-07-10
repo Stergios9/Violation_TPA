@@ -159,6 +159,7 @@
         <input type="date"
                class="form-control w-25 mx-auto"
                name="incidentDate"
+               id="incidentDate"
                required>
       </div>
     </div>
@@ -1002,19 +1003,24 @@
     row.className = "row border rounded p-2 mb-2 align-items-center";
 
     row.innerHTML = `
-        <div class="col-4">${uiItem.type}</div>
-        <div class="col-3">${uiItem.qty}</div>
-        <div class="col-3">${uiItem.armed ? 'Οπλισμένο' : 'Άοπλο'}</div>
-        <div class="col-2 text-end">
-            <button type="button"
-                    class="btn btn-danger btn-sm"
-                    onclick="removeItem(${uiItem.id}, this)">
-                X
-            </button>
-        </div>
+    <div class="col-8">${item.type}</div>
+    <div class="col-2">${item.qty}</div>
+    <div class="col-2 text-end">
+        <button
+            type="button"
+            class="btn btn-danger btn-sm remove-btn">
+            X
+        </button>
+    </div>
     `;
 
     list.appendChild(row);
+    const removeButton = row.querySelector(".remove-btn");
+
+    removeButton.addEventListener("click", function () {
+      removeItem(item.id, row);
+    });
+
 
     updateIncomingTotal();
 
@@ -1084,18 +1090,23 @@
     row.className = "row border rounded p-2 mb-2 align-items-center";
 
     row.innerHTML = `
-        <div class="col-8">${item.type}</div>
-        <div class="col-2">${item.qty}</div>
-        <div class="col-2 text-end">
-            <button type="button"
-                    class="btn btn-danger btn-sm"
-                    onclick="removeItem(${item.id}, this)">
-                X
-            </button>
-        </div>
+    <div class="col-8">${item.type}</div>
+    <div class="col-2">${item.qty}</div>
+    <div class="col-2 text-end">
+        <button
+            type="button"
+            class="btn btn-danger btn-sm remove-btn">
+            X
+        </button>
+    </div>
     `;
 
     list.appendChild(row);
+    const removeButton = row.querySelector(".remove-btn");
+
+    removeButton.addEventListener("click", function () {
+      removeItem(item.id, row);
+    });
 
     select.selectedIndex = 0;
     qty.value = "";

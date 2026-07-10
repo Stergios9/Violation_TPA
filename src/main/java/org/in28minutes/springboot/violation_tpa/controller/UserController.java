@@ -1,8 +1,9 @@
 package org.in28minutes.springboot.violation_tpa.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 import jakarta.servlet.http.HttpSession;
+import org.in28minutes.springboot.violation_tpa.dto.IncidentFormDTO;
 import org.in28minutes.springboot.violation_tpa.entity.*;
 import org.in28minutes.springboot.violation_tpa.repository.*;
 import org.in28minutes.springboot.violation_tpa.service.*;
@@ -10,13 +11,14 @@ import org.in28minutes.springboot.violation_tpa.service.ExcelService;
 import org.in28minutes.springboot.violation_tpa.service.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+
 import java.util.List;
 
 @Controller
@@ -50,6 +52,8 @@ public class UserController {
     private CountryRepository countryRepository;
     @Autowired
     private final EntryAreaService entryAreaService;
+    @Autowired
+    private IncidentService incidentService;
 
     public UserController(EntryAreaService entryAreaService) {
         this.entryAreaService = entryAreaService;
@@ -82,8 +86,21 @@ public class UserController {
         model.addAttribute("country", country);
 
         fillInputFields(model, country);
+        model.addAttribute("incidentFormDto", new IncidentFormDTO());
 
         return "main-page";
+    }
+
+
+    @PostMapping("/incident/save")
+    public String saveIncident(
+            @ModelAttribute("incidentFormDto") IncidentFormDTO dto,
+            HttpSession session,
+            Authentication authentication) {
+
+        incidentService.saveIncident(dto, session, authentication);
+
+        return "redirect:/main-page";
     }
 
     @GetMapping("/admin-main-page")
@@ -99,8 +116,7 @@ public class UserController {
         model.addAttribute("country", country);
 
         fillInputFields(model, country);
-
-
+        model.addAttribute("incidentForm", new IncidentFormDTO());
         return "admin-main-page";
     }
 
@@ -128,11 +144,11 @@ public class UserController {
 //
 //    }
 
-    @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userService.saveUser(user);
-    }
+//    @PostMapping("/register")
+//    public User register(@RequestBody User user) {
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        return userService.saveUser(user);
+//    }
 
     @GetMapping("/csrf-token")
     public CsrfToken getCsrfToken(HttpServletRequest request) {

@@ -42,6 +42,14 @@ public class Incident {
     private List<IncidentItem> items = new ArrayList<>();
 
 
+
+    public void addItem(IncidentItem item){
+
+        items.add(item);
+        item.setIncident(this);
+
+    }
+
     public Incident() {
     }
 
